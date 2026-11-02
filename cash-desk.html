@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102c24"><meta name="robots" content="noindex,nofollow,noarchive">
+<title>Church Cash Desk | Staff Only</title>
+<style>
+:root{--bg:#102c24;--panel:#193a2f;--panel2:#244a3a;--gold:#e6c778;--cream:#fff9e9;--muted:#c4d0c6;--border:#547661;--green:#aaf0be;--danger:#ffb9ae}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--cream);font:16px/1.55 system-ui,-apple-system,sans-serif}
+.wrap{max-width:1000px;margin:auto;padding:25px 18px 60px}
+h1,h2{letter-spacing:-.035em;line-height:1.15}h1{font-size:clamp(1.8rem,5vw,2.6rem)}h2{font-size:1.35rem;color:var(--gold);margin:3px 0 15px}
+header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;border-bottom:1px solid #42604d;padding-bottom:19px;margin-bottom:27px}
+a{color:var(--gold)}.card{background:var(--panel);border:1px solid #476959;border-radius:17px;padding:clamp(18px,3vw,28px);margin-bottom:18px}.muted{color:var(--muted)}.notice{border-left:3px solid var(--gold);padding:10px 15px;background:#28483a;border-radius:8px;margin:14px 0}
+label{font-weight:700;display:block;margin:14px 0 7px}input{width:100%;min-height:53px;background:#0d281e;border:1px solid #769681;color:var(--cream);border-radius:9px;padding:12px 14px;font:inherit;font-size:1.05rem}button{font:inherit;font-weight:800;cursor:pointer;padding:13px 18px;border:0;border-radius:10px;min-height:51px;background:var(--gold);color:#14271f}button.secondary{background:var(--panel2);border:1px solid var(--border);color:var(--cream)}button.warn{background:#e3bfb3;color:#311d15}button:disabled{opacity:.6;cursor:wait}button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 5px}.actions>*{flex:1;min-width:130px}#login{max-width:520px;margin:0 auto 22px}.hidden{display:none!important}
+.status{min-height:25px;color:var(--gold);margin:12px 0;font-weight:650}.status.error{color:var(--danger)}
+.results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0}.stat{background:#102f23;border:1px solid #416850;border-radius:12px;padding:15px}.stat strong{display:block;font-size:1.5rem;color:var(--gold)}.stat small{color:var(--muted)}
+.ticket-card{background:#f8f4dc;color:#183427;border-radius:15px;padding:22px;display:grid;gap:10px}.ticket-card strong{font-size:2.5rem;letter-spacing:.04em}.ticket-card p{margin:0}.ticket-card .sub{color:#516a5c}.ticket-card .pending{background:#fff0bb;color:#614610;padding:8px 12px;border-radius:12px;display:inline-block;width:max-content;font-weight:850}.ticket-card .paid{background:#baf4c6;color:#1d6132;padding:8px 12px;border-radius:12px;width:max-content;font-weight:850}.ticket-card .void{background:#eedddd;color:#782e2e;padding:8px 12px;border-radius:12px;width:max-content;font-weight:850}
+.history{overflow-x:auto}.history table{width:100%;border-collapse:collapse;min-width:540px}.history th,.history td{text-align:left;padding:12px 9px;border-bottom:1px solid #466554}.history th{color:var(--gold);font-size:.8rem;white-space:nowrap}.history td{font-size:.9rem}.history button{padding:7px 10px;min-height:36px;font-size:.8rem}.pill{display:inline-block;border:1px solid #6b876c;border-radius:99px;padding:3px 8px;text-transform:uppercase;font-size:.73rem;letter-spacing:.06em}
+.small{font-size:.84rem}.center{text-align:center}footer{color:var(--muted);font-size:.8rem;margin-top:32px}
+@media(max-width:580px){.results{grid-template-columns:1fr}.actions>*{min-width:115px}.history table{min-width:490px}}
+</style>
+</head>
+<body><div class="wrap">
+<header><div><div style="color:var(--gold);font-size:.85rem;font-weight:800">CHURCH COMMUNITY · STAFF ONLY</div><h1>Cash Donation Desk</h1><p class="muted">Receive cash, check the reference and record the payment securely.</p></div><a href="index.html">Back to donor kiosk</a></header>
+<div id="login" class="card">
+<h2>Staff sign-in</h2>
+<p class="muted">Use your existing authorised church staff account. This is the same username and PIN as the church debt-account staff system.</p>
+<form id="loginForm">
+<label for="username">Staff username</label><input id="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="32" required>
+<label for="pin">Four-digit staff PIN</label><input id="pin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" required>
+<button type="submit" style="width:100%;margin-top:21px" id="loginBtn">Sign in</button>
+</form>
+<p class="status" id="loginStatus" role="status" aria-live="polite"></p>
+</div>
+<div id="workspace" class="hidden">
+<div class="card"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><h2>Cash-desk records</h2><div id="staffName" class="muted"></div></div><button class="secondary" id="logout" type="button">Sign out</button></div>
+<div class="notice"><strong>Cash must be physically received first.</strong> A donor's reference is <strong>not proof of payment</strong>. Do not press Mark Paid until you have counted and accepted the cash.</div>
+<div class="results"><div class="stat"><strong id="pendingCount">—</strong><small>Awaiting cash (latest 150)</small></div><div class="stat"><strong id="paidCount">—</strong><small>Paid (latest 150)</small></div><div class="stat"><strong id="paidTotal">—</strong><small>Cash confirmed (latest 150)</small></div></div>
+<div class="actions"><button class="secondary" id="refresh" type="button">Refresh records</button><button class="secondary" id="export" type="button">Export recent CSV</button></div>
+</div>
+<div class="card">
+<h2>Find a donation</h2><form id="lookupForm"><label for="reference">Donation reference (e.g. 060)</label><input id="reference" inputmode="numeric" type="text" pattern="[0-9]{3,10}" maxlength="10" autocomplete="off" placeholder="060" required><button id="findBtn" type="submit" style="width:100%;margin-top:12px">Look up reference</button></form>
+<p id="deskStatus" role="status" aria-live="polite" class="status"></p>
+<div class="ticket-card hidden" id="ticketDetail">
+<div class="sub">Donation reference</div><strong id="foundRef"></strong><p id="foundAmount"></p><div id="foundStatus" class="pending">AWAITING CASH</div><p class="sub small" id="foundDate"></p>
+<div id="confirmActions" class="actions hidden"><button id="markPaid" type="button">Cash received — Mark Paid</button><button id="voidTicket" type="button" class="warn">Void unpaid reference</button></div>
+</div>
+</div>
+<div class="card"><h2>Recent donation references</h2><p class="muted small">These entries are saved in the church database, not just this device. The list shows the most recent 150 references. Exporting CSV exports this recent list, not necessarily every historic entry.</p><div class="history"><table><thead><tr><th>Reference</th><th>Amount</th><th>Status</th><th>Created</th><th>Action</th></tr></thead><tbody id="records"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></div>
+</div>
+<footer>Cash only · No payment cards are processed by this system · Only authorised staff can confirm a cash donation.</footer>
+</div>
+<script>
+(()=>{
+"use strict";
+const BASE="https://acyjdlrsvtgqqazzxzys.supabase.co/functions/v1/";
+const PUBLISHABLE_KEY="sb_publishable_RtCgif0EJYw_LgjgLSEPzQ_xasQeIf4";
+let sessionToken="", selected=null,records=[];
+const $=id=>document.getElementById(id);
+const pounds=p=>new Intl.NumberFormat("en-GB",{style:"currency",currency:"GBP"}).format(p/100);
+const displayDate=d=>d?new Date(d).toLocaleString("en-GB"):"—";
+function status(text, error=false,field="deskStatus"){const el=$(field);el.textContent=text;el.className="status"+(error?" error":"")}
+async function call(endpoint,body){
+ const r=await fetch(BASE+endpoint,{method:"POST",headers:{"Content-Type":"application/json",...(endpoint==="staff-pin"?{"apikey":PUBLISHABLE_KEY}:{})},body:JSON.stringify(body)});
+ const result=await r.json().catch(()=>({}));
+ if(!r.ok||result.error)throw new Error(result.error||("Request failed (HTTP "+r.status+")"));
+ return result;
+}
+function token(){if(!sessionToken)throw Error("Staff session has ended. Please sign in again.");return sessionToken}
+function clearTicket(){selected=null;$("ticketDetail").classList.add("hidden");$("confirmActions").classList.add("hidden")}
+function displayTicket(t){
+ selected=t;$("ticketDetail").classList.remove("hidden");$("reference").value=t.reference;
+ $("foundRef").textContent=t.reference;$("foundAmount").textContent=pounds(t.amountPence);
+ $("foundStatus").textContent=t.status==="paid"?"PAID — CASH RECEIVED":t.status==="void"?"VOID — NOT PAYABLE":"AWAITING CASH — NOT PAID";
+ $("foundStatus").className=t.status==="paid"?"paid":t.status==="void"?"void":"pending";
+ $("foundDate").textContent="Issued "+displayDate(t.createdAt)+(t.paidAt?" · Paid "+displayDate(t.paidAt):"");
+ $("confirmActions").classList.toggle("hidden",t.status!=="pending");
+}
+async function loadRecords(){
+ const res=await call("church-cash-donations",{action:"list",sessionToken:token()});
+ records=res.records||[];
+ const pending=records.filter(r=>r.status==="pending");
+ const paid=records.filter(r=>r.status==="paid");
+ $("pendingCount").textContent=String(pending.length);
+ $("paidCount").textContent=String(paid.length);
+ $("paidTotal").textContent=pounds(paid.reduce((v,r)=>v+r.amountPence,0));
+ const body=$("records");body.replaceChildren();
+ if(!records.length){const row=document.createElement("tr"),cell=document.createElement("td");cell.colSpan=5;cell.textContent="No cash donation references yet.";row.appendChild(cell);body.appendChild(row);return;}
+ for(const rec of records){
+  const tr=document.createElement("tr");
+  for(const value of [rec.reference,pounds(rec.amountPence),rec.status.toUpperCase(),displayDate(rec.createdAt)]){
+   const td=document.createElement("td");td.textContent=value;tr.appendChild(td);
+  }
+  const td=document.createElement("td"),button=document.createElement("button");button.className="secondary";button.type="button";button.textContent="Review";
+  button.onclick=()=>{$("reference").value=rec.reference;findTicket();document.getElementById("lookupForm").scrollIntoView({behavior:"smooth",block:"center"})};
+  td.appendChild(button);tr.appendChild(td);body.appendChild(tr);
+ }
+}
+async function findTicket(){
+ const ref=$("reference").value.trim();if(!/^[0-9]{3,10}$/.test(ref))return status("Enter a valid reference such as 060.",true);
+ clearTicket();status("Looking up reference…");
+ try{const res=await call("church-cash-donations",{action:"find",reference:ref,sessionToken:token()});displayTicket(res.ticket);status("")}
+ catch(e){status(e.message||"Unable to find reference.",true)}
+}
+$("loginForm").onsubmit=async(e)=>{
+ e.preventDefault();const btn=$("loginBtn");btn.disabled=true;status("Checking staff credentials…",false,"loginStatus");
+ try{
+  const res=await call("staff-pin",{action:"login",username:$("username").value.trim().toLowerCase(),pin:$("pin").value.trim()});
+  if(!res.sessionToken)throw Error("No staff session returned.");
+  sessionToken=res.sessionToken;$("pin").value="";$("staffName").textContent="Signed in as "+(res.staff?.display_name||"staff");
+  $("login").classList.add("hidden");$("workspace").classList.remove("hidden");status("",false,"loginStatus");
+  await loadRecords();
+ }catch(err){status(err.message||"Sign-in failed.",true,sessionToken?"deskStatus":"loginStatus");if(sessionToken)$("workspace").classList.remove("hidden")}
+ finally{btn.disabled=false}
+};
+$("lookupForm").onsubmit=e=>{e.preventDefault();findTicket()};
+async function changeTicket(action){
+ if(!selected||selected.status!=="pending")return;
+ const ref=selected.reference,amount=pounds(selected.amountPence);
+ const question=action==="mark_paid"
+  ?"Have you physically received "+amount+" in cash for reference "+ref+"? This will permanently mark the donation PAID."
+  :"Void unpaid reference "+ref+" for "+amount+"? This cannot be marked paid afterward.";
+ if(!window.confirm(question))return;
+ const btn=$("markPaid"),voidBtn=$("voidTicket");btn.disabled=true;voidBtn.disabled=true;status("Saving the record…");
+ try{const res=await call("church-cash-donations",{action,reference:ref,sessionToken:token()});displayTicket(res.ticket);
+ status(action==="mark_paid"?"Cash donation recorded as PAID. Give the donor a confirmation.":"Reference voided.");
+ await loadRecords();
+ }catch(err){status(err.message||"Could not record the change. Refresh and check.",true)}
+ finally{btn.disabled=false;voidBtn.disabled=false}
+}
+$("markPaid").onclick=()=>changeTicket("mark_paid");
+$("voidTicket").onclick=()=>changeTicket("void");
+$("refresh").onclick=async()=>{try{await loadRecords();status("Cash records refreshed.")}catch(e){status(e.message,true)}};
+$("export").onclick=()=>{
+ if(!records.length){status("There are no recent records to export.",true);return}
+ const csv=[["Reference","Amount GBP","Status","Created","Paid"],...records.map(t=>[t.reference,(t.amountPence/100).toFixed(2),t.status,t.createdAt||"",t.paidAt||""])].map(row=>row.map(c=>'"'+String(c).replaceAll('"','""')+'"').join(",")).join("\r\n");
+ const url=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="church-cash-recent-records.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+};
+$("logout").onclick=async()=>{
+ const current=sessionToken;sessionToken="";selected=null;records=[];$("workspace").classList.add("hidden");$("login").classList.remove("hidden");clearTicket();$("pin").value="";$("username").value="";
+ try{if(current)await call("staff-pin",{action:"logout",sessionToken:current})}catch(_){}
+ status("Signed out.",false,"loginStatus");
+};
+})();
+</script></body></html>
