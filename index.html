@@ -1,103 +1,138 @@
 <!doctype html>
-<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#102c24"><title>Church Giving</title>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#102c24">
+<meta name="robots" content="noindex,nofollow">
+<title>Church Giving | Cash Donations</title>
 <style>
-:root{--bg:#102c24;--panel:#18392f;--panel2:#21483a;--gold:#e6c778;--cream:#fff9e9;--muted:#c2d1c6;--green:#74d6a0}*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--cream)}body{min-height:100dvh}button,input{font:inherit}button{cursor:pointer;touch-action:manipulation}.app{min-height:100dvh;max-width:900px;margin:auto;padding:clamp(16px,3vw,30px);display:flex;flex-direction:column;gap:18px}.top,.brand,.footer{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{justify-content:flex-start}.mark{width:44px;height:44px;border:1px solid #678477;border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:24px}.brand-title{font-weight:800;letter-spacing:.04em}.brand-sub,.small{font-size:12px;color:var(--muted);line-height:1.5}.status{font-size:12px;color:var(--muted);border:1px solid #416255;padding:7px 10px;border-radius:99px}main{flex:1;display:flex;align-items:center;justify-content:center}.screen{width:100%;max-width:680px;text-align:center;display:none}.screen.active{display:block}.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:750}h1{font-size:clamp(29px,5vw,46px);line-height:1.08;letter-spacing:-.035em;margin:12px 0}.lead{font-size:clamp(15px,2vw,18px);line-height:1.5;color:var(--muted);margin:0 auto 24px;max-width:520px}.amounts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}.amount{background:var(--panel);border:1px solid #3d6655;color:var(--cream);border-radius:17px;min-height:86px;font-size:clamp(26px,4vw,34px);font-weight:750}.amount small{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-top:4px}.amount:hover,.amount:active{background:var(--panel2);border-color:var(--gold)}.primary,.secondary{border-radius:13px;padding:15px 20px;font-weight:750;min-height:52px}.primary{background:var(--gold);color:#1d2a20;border:0}.secondary{background:var(--panel2);border:1px solid #4b6e5e;color:var(--cream)}.wide{width:100%}.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}.actions>*{flex:1;min-width:145px}.amount-display{font-size:clamp(42px,8vw,68px);font-weight:800;letter-spacing:-.04em;margin:12px 0 20px}.custom-entry{max-width:360px;margin:auto}.field{width:100%;border:1px solid #547365;border-radius:12px;background:#0d241d;color:var(--cream);padding:14px;text-align:center;font-size:22px}.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:18px auto}.key{min-height:57px;background:var(--panel);color:var(--cream);border:1px solid #426454;border-radius:12px;font-size:22px}.gift{display:flex;gap:12px;text-align:left;background:var(--panel);border:1px solid #3d6655;padding:15px;border-radius:14px;margin:16px auto;max-width:520px}.gift input{width:22px;height:22px;accent-color:var(--gold);flex:none}.gift span{font-size:13px;color:var(--muted);line-height:1.45}.gift strong{display:block;color:var(--cream);margin-bottom:4px}.notice{border:1px solid #426454;background:var(--panel);border-radius:14px;padding:14px;color:var(--muted);line-height:1.5;margin:18px auto;max-width:520px}.symbol{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;margin:0 auto 20px;background:#21483a;color:var(--green);font-size:43px;border:1px solid #47715b}.wait{color:var(--gold)}.footer{color:#8eaa9b;font-size:11px}.footer button{border:0;background:transparent;color:#9ab6a6;font-size:11px;text-decoration:underline;padding:8px}.small{min-height:18px}hr{border:0;border-top:1px solid #345548;margin:20px 0}.hotspot{position:fixed;right:0;bottom:0;width:38px;height:38px;opacity:.03;border:0;background:transparent}@media(min-width:650px){.amounts{grid-template-columns:repeat(4,minmax(0,1fr))}.amount{min-height:112px}}@media(max-height:700px){.app{gap:10px;padding:14px}.lead{margin-bottom:14px}.amount{min-height:70px}.symbol{width:66px;height:66px;margin-bottom:12px}}
-
-.form-frame{width:100%;height:min(68vh,720px);border:1px solid #49685b;border-radius:14px;background:#fff}
-.history-wrap{width:100%;overflow:auto;border:1px solid #49685b;border-radius:12px}
-.history{width:100%;border-collapse:collapse;min-width:580px;font-size:14px}
-.history th,.history td{padding:10px;text-align:left;border-bottom:1px solid #355448}
-.history th{color:var(--gold);font-weight:700}
-.history-empty{padding:18px;text-align:center;color:var(--muted)}
-.staff-tools{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
-</style></head><body><div class="app">
-<header class="top"><div class="brand"><div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="29" height="29" fill="none" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M24 5v38M17 12h14M10 22h28M16 36l16-5"/></svg></div><div><div class="brand-title">CHURCH GIVING</div><div class="brand-sub">Thank you for your generosity</div></div></div><div class="status" id="status">Donation point</div></header>
+:root{--bg:#102c24;--panel:#193a2f;--panel2:#21483a;--gold:#e6c778;--cream:#fff9e9;--muted:#c4d0c6;--line:#47715a;--green:#aaf0be;--danger:#ffd7d0}*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--cream);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{min-height:100dvh}button,input{font:inherit}button{cursor:pointer;touch-action:manipulation}button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+.app{min-height:100dvh;max-width:940px;margin:auto;padding:clamp(16px,3vw,34px);display:flex;flex-direction:column;gap:20px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:13px}.mark{width:52px;height:52px;border:1px solid #789283;border-radius:50%;display:grid;place-items:center;color:var(--gold);flex:none}.brand-title{font-weight:850;letter-spacing:.06em;font-size:1.22rem}.brand-sub{color:var(--muted);font-size:.86rem;margin-top:2px}.cash-badge{color:var(--gold);font-weight:800;border:1px solid #6b7350;border-radius:99px;padding:8px 13px;font-size:.86rem;background:#183c2e}
+main{flex:1;display:flex;align-items:center;justify-content:center}.screen{display:none;width:100%;max-width:730px;margin:auto;text-align:center}.screen.active{display:block}
+.eyebrow{text-transform:uppercase;letter-spacing:.17em;color:var(--gold);font-weight:800;font-size:.78rem}h1{font-size:clamp(2rem,5.8vw,3.3rem);letter-spacing:-.035em;line-height:1.1;margin:13px 0 15px}.lead{max-width:570px;color:var(--muted);font-size:clamp(1rem,2.3vw,1.24rem);line-height:1.55;margin:0 auto 20px}
+.button{min-height:57px;padding:15px 22px;border-radius:13px;border:1px solid transparent;font-weight:800;background:var(--gold);color:#1c3025}.button:disabled{opacity:.6;cursor:wait}.button.secondary{background:var(--panel2);border-color:var(--line);color:var(--cream)}.button:hover:not(:disabled){filter:brightness(1.1)}.actions{display:flex;align-items:stretch;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:22px}.actions .button{min-width:180px;flex:1;max-width:320px}
+.amounts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:25px 0 20px}.amount{min-height:104px;font-weight:850;font-size:clamp(1.65rem,3vw,2.2rem);color:var(--cream);background:var(--panel);border:1px solid var(--line);border-radius:19px}.amount:hover{border-color:var(--gold);background:var(--panel2)}.amount small{display:block;color:var(--muted);font-weight:500;font-size:.8rem;margin-top:5px}
+.notice{border-radius:15px;padding:17px 20px;background:var(--panel);border:1px solid #47715b;max-width:620px;margin:20px auto;color:var(--muted);line-height:1.55;text-align:left}.notice strong{color:var(--cream)}
+.input-wrap{margin:24px auto 14px;max-width:360px;text-align:left}.input-wrap label{display:block;font-weight:750;margin:0 0 9px}.input-wrap input{font-size:2rem;width:100%;background:#0d271e;color:var(--cream);border:1px solid #6f8b7b;border-radius:14px;padding:17px 20px;text-align:center}
+.big-amount{font-size:clamp(3rem,8vw,5rem);font-weight:850;letter-spacing:-.05em;color:var(--gold);margin:14px 0}.error{color:var(--danger);min-height:22px;font-size:.94rem;line-height:1.45;margin:12px auto;max-width:600px}
+.ticket{padding:26px;background:var(--cream);border-radius:25px;color:#183b2d;margin:22px auto;max-width:420px;box-shadow:0 22px 50px #091d17aa}.ticket .tag{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:#536858}.ticket-number{font-size:clamp(5.4rem,20vw,8.5rem);line-height:1.14;font-weight:950;font-variant-numeric:tabular-nums;letter-spacing:.025em}.ticket-amount{font-size:1.5rem;font-weight:850}.ticket-status{display:inline-block;margin-top:11px;border-radius:99px;background:#fff0be;color:#5b4200;font-weight:800;font-size:.83rem;padding:9px 14px}.steps{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:21px auto;max-width:590px;text-align:left}.step{border:1px solid #3e6853;background:#17372b;padding:18px;border-radius:16px}.step strong{display:block;color:var(--gold);margin-bottom:6px}.step p{margin:0;color:var(--muted);line-height:1.45;font-size:.94rem}
+.foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;color:#a0bbae;font-size:.8rem;border-top:1px solid #2f5946;padding-top:17px}.foot a{color:#bed6c8}
+@media(max-width:620px){.amounts{grid-template-columns:repeat(2,1fr)}.amount{min-height:91px}.steps{grid-template-columns:1fr}.cash-badge{font-size:.78rem}.brand-title{font-size:1rem}.mark{width:45px;height:45px}.app{gap:13px}.ticket{padding:18px}.button{min-height:55px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><span class="mark" aria-hidden="true"><svg viewBox="0 0 48 48" width="30" height="30" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" fill="none"><path d="M24 5v38M17 12h14M10 22h28M16 36l16-5"/></svg></span><span><span class="brand-title" id="brand">CHURCH GIVING</span><span class="brand-sub" id="subtitle" style="display:block">Thank you for your generosity</span></span></div>
+  <div class="cash-badge" id="cashBadge">CASH ONLY · Pay at church desk</div>
+</header>
 <main>
-<section class="screen active" id="language"><div class="eyebrow">Welcome · Dobro došli</div><h1 id="languageTitle">Choose your language</h1><p class="lead" id="languageLead">Please select the language you prefer.</p><div class="actions"><button class="primary wide" id="englishBtn">English</button><button class="secondary wide" id="serbianBtn">Srpski · Serbian</button></div></section>
-<section class="screen" id="home"><div class="eyebrow">Give today</div><h1>How much would you like to give?</h1><p class="lead">Choose an amount below, or enter a different amount.</p><div class="amounts"><button class="amount" data-amount="5">£5<small>Donation</small></button><button class="amount" data-amount="10">£10<small>Donation</small></button><button class="amount" data-amount="20">£20<small>Donation</small></button><button class="amount" data-amount="50">£50<small>Donation</small></button></div><div class="actions"><button class="secondary" id="customBtn">Enter another amount</button></div><p class="small">Maximum donation per transaction: £499.</p></section>
-<section class="screen" id="custom"><div class="eyebrow">Custom donation</div><h1>Enter your amount</h1><p class="lead">Enter an amount from £1 to £499.</p><div class="custom-entry"><input class="field" id="customAmount" readonly placeholder="£0.00" aria-label="Donation amount"><div class="keypad" id="keypad"><button class="key" data-key="1">1</button><button class="key" data-key="2">2</button><button class="key" data-key="3">3</button><button class="key" data-key="4">4</button><button class="key" data-key="5">5</button><button class="key" data-key="6">6</button><button class="key" data-key="7">7</button><button class="key" data-key="8">8</button><button class="key" data-key="9">9</button><button class="key" data-key="clear">Clear</button><button class="key" data-key="0">0</button><button class="key" data-key="back">⌫</button></div></div><p class="small" id="amountError"></p><div class="actions"><button class="secondary" data-go="home">Back</button><button class="primary" id="continueCustom">Continue</button></div></section>
-<section class="screen" id="gift"><div class="eyebrow">Donation details</div><h1>Your donation</h1><div class="amount-display" id="giftAmount">£0</div><p class="lead">Would you like to make a Gift Aid declaration?</p><label class="gift"><input type="checkbox" id="giftCheck"><span><strong>Yes, I would like to Gift Aid this donation</strong>If you are eligible and complete the charity’s Gift Aid declaration, the church may be able to claim an extra 25p for every £1 you donate, at no extra cost to you. You must have paid enough UK Income Tax and/or Capital Gains Tax, and the church must collect your required declaration details before it can claim.</span></label><div class="notice">If you select Gift Aid, a church team member will be asked to check your declaration and enter their staff code before continuing. The card terminal must be connected through a supported myPOS integration before taking real payments.</div><div class="actions"><button class="secondary" data-go="home">Cancel</button><button class="primary" id="pay">Continue to payment</button></div></section>
-
-<section class="screen" id="giftAidForm"><div class="eyebrow">Gift Aid declaration</div><h1>Complete your Gift Aid form</h1><div class="amount-display" id="formAmount">£0</div><p class="lead">Complete the church's Gift Aid form below. Your donation amount is being passed to the form where the matching field is configured.</p><iframe class="form-frame" id="jotformFrame" title="Church Gift Aid form" src="https://form.jotform.com/262752916973066"></iframe><div class="notice">After submitting the form, return here and tap the button below. This button does not independently verify that the form was submitted. The form's amount field must have the matching Jotform unique name for prefill to work.</div><div class="actions"><button class="secondary" id="giftFormCancel">Cancel</button><button class="primary" id="giftFormDone">I've completed the form</button></div></section>
-<section class="screen" id="giftAidAssist"><div class="symbol wait">✋</div><div class="eyebrow">Gift Aid verification</div><h1>A staff member is needed</h1><p class="lead">Please wait while a church team member checks the Gift Aid declaration.</p><div class="notice">This optional staff-check demo does not itself create or verify a valid Gift Aid declaration.</div><button class="primary wide" id="staffCodeBtn">Staff member: enter code</button></section>
-<section class="screen" id="pin"><div class="eyebrow">Staff access</div><h1>Enter staff PIN</h1><p class="lead">For authorised church team members.</p><div class="custom-entry"><input class="field" id="pinInput" inputmode="numeric" type="password" maxlength="4" placeholder="4-digit PIN" aria-label="Staff PIN"><div class="actions"><button class="secondary" id="pinCancel">Cancel</button><button class="primary" id="pinSubmit">Continue</button></div><p class="small" id="pinError"></p></div></section>
-<section class="screen" id="staff"><div class="eyebrow">Authorised staff</div><h1>Staff assistance mode</h1><p class="lead">Staff PIN unlocks this screen; it does not itself approve a card payment.</p><div class="notice" id="staffNotice">You can help the visitor or return to the donation screen.</div><div class="actions"><button class="primary" id="attended">Approve Gift Aid check &amp; continue</button><button class="secondary" id="staffHome">Return to donation screen</button></div><div class="staff-tools"><button class="secondary" id="openHistory">View donation history</button></div><hr><p class="small">Use the myPOS terminal's supported payment flow to authorise a real transaction. This demo page cannot approve the terminal.</p></section>
-<section class="screen" id="history"><div class="eyebrow">Staff tools</div><h1>Donation history</h1><p class="lead">This prototype stores demo entries in this browser on this device only.</p><div class="stats"><div class="notice">Today: <strong id="todayTotal">£0.00</strong></div><div class="notice">All demo records: <strong id="allTotal">£0.00</strong></div></div><div class="history-wrap"><table class="history"><thead><tr><th>Date &amp; time</th><th>Amount</th><th>Payment</th><th>Gift Aid</th></tr></thead><tbody id="historyRows"><tr><td colspan="4" class="history-empty">No demo donations recorded yet.</td></tr></tbody></table></div><div class="staff-tools"><button class="secondary" id="historyBack">Back to staff panel</button><button class="secondary" id="exportHistory">Export CSV</button></div><p class="small">Do not use this browser-only history as your official accounts record. Live records need a secure database and verified myPOS payment events.</p></section>
-<section class="screen" id="processing"><div class="symbol wait">…</div><div class="eyebrow">Payment setup</div><h1>Ready for card payment</h1><p class="lead">Please follow the instructions on the myPOS terminal.</p><div class="notice">Demo mode: no payment has been taken. Connect and test a supported myPOS integration before live use.</div><div class="actions"><button class="secondary" id="cancelPay">Cancel</button><button class="primary" id="simulate">Simulate confirmed payment</button></div></section>
-<section class="screen" id="success"><div class="symbol">✓</div><div class="eyebrow">Thank you</div><h1>Thank you for your donation</h1><div class="amount-display" id="successAmount">£0</div><p class="lead">The demo confirmation has been displayed.</p><div class="notice">No real payment was processed and no notification was sent.</div><button class="primary wide" id="finish">Finish</button></section>
-</main><footer class="footer"><span>Church giving kiosk</span><button id="staffAccess">Staff access</button></footer></div><button class="hotspot" id="hiddenStaff" aria-label="Staff access"></button>
+  <section class="screen active" id="languageView">
+    <div class="eyebrow">Welcome · Добро дошли</div>
+    <h1>Choose your language</h1><p class="lead">Изаберите језик · Select your language</p>
+    <div class="actions"><button class="button" id="english" type="button">English</button><button class="button secondary" id="serbian" type="button">Српски</button></div>
+  </section>
+  <section class="screen" id="homeView">
+    <div class="eyebrow" data-i18n="giving">Cash donations</div>
+    <h1 data-i18n="choose">How much would you like to give?</h1>
+    <p class="lead" data-i18n="chooseSub">Choose an amount to receive a reference number. Pay cash at the church desk.</p>
+    <div class="amounts">
+      <button class="amount" type="button" data-amount="5">£5<small data-i18n="donation">Donation</small></button>
+      <button class="amount" type="button" data-amount="10">£10<small data-i18n="donation">Donation</small></button>
+      <button class="amount" type="button" data-amount="20">£20<small data-i18n="donation">Donation</small></button>
+      <button class="amount" type="button" data-amount="50">£50<small data-i18n="donation">Donation</small></button>
+    </div>
+    <button class="button secondary" type="button" id="customButton" data-i18n="otherAmount">Enter another amount</button>
+    <div class="notice" data-i18n="maxNotice">Cash only. Amounts are in GBP (£), maximum £499 per donation.</div>
+  </section>
+  <section class="screen" id="customView">
+    <div class="eyebrow" data-i18n="custom">Custom donation</div>
+    <h1 data-i18n="enterAmount">Enter your amount</h1>
+    <div class="input-wrap"><label for="customInput" data-i18n="amountLabel">Amount in pounds (£)</label><input id="customInput" type="number" inputmode="decimal" step="0.01" min="1" max="499" placeholder="10.00" autocomplete="off"></div>
+    <p class="lead" data-i18n="between">Please enter an amount between £1 and £499.</p>
+    <p class="error" id="customError" role="alert"></p>
+    <div class="actions"><button class="button secondary" type="button" id="backHome" data-i18n="back">Back</button><button class="button" type="button" id="customContinue" data-i18n="continue">Continue</button></div>
+  </section>
+  <section class="screen" id="reviewView">
+    <div class="eyebrow" data-i18n="review">Review your donation</div>
+    <h1 data-i18n="cashDesk">Cash payment at the church desk</h1>
+    <div class="big-amount" id="reviewAmount">£0.00</div>
+    <div class="notice"><strong data-i18n="cashOnly">Cash only.</strong> <span data-i18n="reviewText">After you receive your reference number, go to the church desk, say the number and give the staff member your cash. Your donation is only recorded as paid when the desk confirms receiving it.</span></div>
+    <p class="error" id="createError" role="alert"></p>
+    <div class="actions"><button class="button secondary" type="button" id="reviewBack" data-i18n="back">Back</button><button class="button" type="button" id="createTicket" data-i18n="getRef">Get my cash reference</button></div>
+  </section>
+  <section class="screen" id="ticketView" aria-live="polite">
+    <div class="eyebrow" data-i18n="yourRef">Your cash donation reference</div>
+    <h1 data-i18n="showDesk">Tell this number to the church desk</h1>
+    <div class="ticket"><div class="tag" data-i18n="reference">DONATION REFERENCE</div><div class="ticket-number" id="ticketNumber">---</div><div class="ticket-amount" id="ticketAmount">£0.00</div><div class="ticket-status" data-i18n="pending">AWAITING CASH · NOT PAID</div></div>
+    <div class="steps">
+      <div class="step"><strong data-i18n="step1">1. Go to the church desk</strong><p data-i18n="step1Text">Show or tell the staff your reference number.</p></div>
+      <div class="step"><strong data-i18n="step2">2. Pay the exact cash amount</strong><p data-i18n="step2Text">The staff member will check your reference and confirm the payment after receiving the cash.</p></div>
+    </div>
+    <p class="lead" data-i18n="notReceipt">This reference is not a receipt or proof of payment. Please ask the church desk for confirmation after paying.</p>
+    <div class="actions"><button class="button" id="nextCustomer" type="button" data-i18n="next">Next customer</button></div>
+    <p class="small" id="autoResetNote" style="color:var(--muted);font-size:.78rem"></p>
+  </section>
+</main>
+<footer class="foot"><span id="footerNote">No card payments · Please pay cash at the church desk</span><a href="cash-desk.html" id="staffLink" rel="nofollow">Staff access</a></footer>
+</div>
 <script>
-(()=>{const STAFF_PIN='1234'; // DEMO ONLY: do not use client-side PIN security in production
-let language='en';
-const copy={
-en:{
-brandSub:'Thank you for your generosity',status:'Donation point',homeEyebrow:'Give today',homeTitle:'How much would you like to give?',homeLead:'Choose an amount below, or enter a different amount.',donation:'Donation',customBtn:'Enter another amount',max:'Maximum donation per transaction: £499.',
-customEyebrow:'Custom donation',customTitle:'Enter your amount',customLead:'Enter an amount from £1 to £499.',clear:'Clear',back:'Back',continue:'Continue',
-detailsEyebrow:'Donation details',yourDonation:'Your donation',giftQuestion:'Would you like to make a Gift Aid declaration?',giftYes:'Yes, I would like to Gift Aid this donation',giftAidText:'If you are eligible and complete the charity’s Gift Aid declaration, the church may be able to claim an extra 25p for every £1 you donate, at no extra cost to you. You must have paid enough UK Income Tax and/or Capital Gains Tax, and the church must collect your required declaration details before it can claim.',giftNotice:'If you select Gift Aid, a church team member will be asked to check your declaration and enter their staff code before continuing. The card terminal must be connected through a supported myPOS integration before taking real payments.',cancel:'Cancel',pay:'Continue to payment',
-formEyebrow:'Gift Aid declaration',formTitle:'Complete your Gift Aid form',formLead:'Complete the church’s Gift Aid form below. Your donation amount is being passed to the form where the matching field is configured.',formNotice:'After submitting the form, return here and tap the button below. This button does not independently verify that the form was submitted. The form’s amount field must have the matching Jotform unique name for prefill to work.',formCancel:'Cancel',formDone:'I’ve completed the form',
-assistEyebrow:'Gift Aid verification',assistTitle:'A staff member is needed',assistLead:'Please wait while a church team member checks the Gift Aid declaration.',assistNotice:'This optional staff-check demo does not itself create or verify a valid Gift Aid declaration.',staffCode:'Staff member: enter code',
-pinEyebrow:'Staff access',pinTitle:'Enter staff PIN',pinLead:'For authorised church team members.',pinCancel:'Cancel',pinContinue:'Continue',pinPlaceholder:'4-digit PIN',
-staffEyebrow:'Authorised staff',staffTitle:'Staff assistance mode',staffLead:'Staff PIN unlocks this screen; it does not itself approve a card payment.',staffNotice:'You can help the visitor or return to the donation screen.',approve:'Approve Gift Aid check & continue',staffHome:'Return to donation screen',historyButton:'View donation history',staffWarning:'Use the myPOS terminal’s supported payment flow to authorise a real transaction. This demo page cannot approve the terminal.',
-historyEyebrow:'Staff tools',historyTitle:'Donation history',historyLead:'This prototype stores demo entries in this browser on this device only.',today:'Today:',allRecords:'All demo records:',dateTime:'Date & time',amount:'Amount',payment:'Payment',giftAid:'Gift Aid',historyEmpty:'No demo donations recorded yet.',historyBack:'Back to staff panel',export:'Export CSV',historyWarning:'Do not use this browser-only history as your official accounts record. Live records need a secure database and verified myPOS payment events.',
-processingEyebrow:'Payment setup',processingTitle:'Ready for card payment',processingLead:'Please follow the instructions on the myPOS terminal.',processingNotice:'Demo mode: no payment has been taken. Connect and test a supported myPOS integration before live use.',simulate:'Simulate confirmed payment',
-thanksEyebrow:'Thank you',thanksTitle:'Thank you for your donation',thanksLead:'The demo confirmation has been displayed.',thanksNotice:'No real payment was processed and no notification was sent.',finish:'Finish',footer:'Church giving kiosk',staffAccess:'Staff access'
-},
-sr:{
-brandSub:'Hvala vam na vašoj velikodušnosti',status:'Mesto za donacije',homeEyebrow:'Donirajte danas',homeTitle:'Koliko želite da donirate?',homeLead:'Izaberite iznos ispod ili unesite drugi iznos.',donation:'Donacija',customBtn:'Unesite drugi iznos',max:'Maksimalna donacija po transakciji: £499.',
-customEyebrow:'Donacija po želji',customTitle:'Unesite iznos',customLead:'Unesite iznos od £1 do £499.',clear:'Obriši',back:'Nazad',continue:'Nastavi',
-detailsEyebrow:'Detalji donacije',yourDonation:'Vaša donacija',giftQuestion:'Da li želite da prijavite donaciju za Gift Aid?',giftYes:'Da, želim da se ova donacija prijavi za Gift Aid',giftAidText:'Ako ispunjavate uslove i popunite izjavu za Gift Aid, crkva može da zatraži dodatnih 25 penija za svaku doniranu funtu, bez dodatnog troška za vas. Morate platiti dovoljno poreza na dohodak u Ujedinjenom Kraljevstvu i/ili poreza na kapitalnu dobit, a crkva mora prikupiti potrebne podatke iz vaše izjave.',giftNotice:'Ako izaberete Gift Aid, član crkvenog osoblja treba da proveri vašu izjavu i unese službeni kod pre nastavka. Pre prihvatanja stvarnih uplata, terminal mora biti povezan putem podržane myPOS integracije.',cancel:'Otkaži',pay:'Nastavi na plaćanje',
-formEyebrow:'Izjava za Gift Aid',formTitle:'Popunite Gift Aid obrazac',formLead:'Popunite crkveni Gift Aid obrazac ispod. Iznos donacije prosleđuje se obrascu kada je odgovarajuće polje pravilno podešeno.',formNotice:'Nakon slanja obrasca vratite se ovde i pritisnite dugme ispod. Ovo dugme ne proverava da li je obrazac zaista poslat. Za automatsko popunjavanje, polje za iznos mora imati odgovarajući jedinstveni naziv u Jotform-u.',formCancel:'Otkaži',formDone:'Popunio/la sam obrazac',
-assistEyebrow:'Provera Gift Aid izjave',assistTitle:'Potrebna je pomoć osoblja',assistLead:'Molimo sačekajte da član crkvenog osoblja proveri Gift Aid izjavu.',assistNotice:'Ova probna provera osoblja sama po sebi ne kreira niti potvrđuje važeću Gift Aid izjavu.',staffCode:'Član osoblja: unesite kod',
-pinEyebrow:'Pristup osoblja',pinTitle:'Unesite PIN osoblja',pinLead:'Samo za ovlašćene članove crkvenog osoblja.',pinCancel:'Otkaži',pinContinue:'Nastavi',pinPlaceholder:'PIN od 4 cifre',
-staffEyebrow:'Ovlašćeno osoblje',staffTitle:'Režim pomoći osoblja',staffLead:'PIN otključava ovaj ekran, ali sam po sebi ne odobrava plaćanje karticom.',staffNotice:'Možete pomoći posetiocu ili se vratiti na ekran za donacije.',approve:'Potvrdi proveru Gift Aid i nastavi',staffHome:'Vrati se na donacije',historyButton:'Prikaži istoriju donacija',staffWarning:'Za stvarnu transakciju koristite podržani način plaćanja na myPOS terminalu. Ova probna stranica ne može da odobri plaćanje na terminalu.',
-historyEyebrow:'Alati za osoblje',historyTitle:'Istorija donacija',historyLead:'Ova probna verzija čuva podatke samo u ovom pregledaču na ovom uređaju.',today:'Danas:',allRecords:'Sve probne donacije:',dateTime:'Datum i vreme',amount:'Iznos',payment:'Plaćanje',giftAid:'Gift Aid',historyEmpty:'Još nema zabeleženih probnih donacija.',historyBack:'Nazad na panel osoblja',export:'Izvezi CSV',historyWarning:'Nemojte koristiti ovu istoriju iz pregledača kao zvaničnu evidenciju. Za stvarne donacije potrebni su bezbedna baza podataka i potvrđeni myPOS događaji.',
-processingEyebrow:'Podešavanje plaćanja',processingTitle:'Spremno za plaćanje karticom',processingLead:'Pratite uputstva na myPOS terminalu.',processingNotice:'Probni režim: uplata nije izvršena. Pre stvarne upotrebe povežite i testirajte podržanu myPOS integraciju.',simulate:'Simuliraj potvrđenu uplatu',
-thanksEyebrow:'Hvala',thanksTitle:'Hvala vam na donaciji',thanksLead:'Prikazana je probna potvrda.',thanksNotice:'Nije obrađeno stvarno plaćanje i obaveštenje nije poslato.',finish:'Završi',footer:'Crkvene donacije',staffAccess:'Pristup osoblja'
-}};
-function setLanguage(lang){
- language=lang;const t=copy[lang];document.documentElement.lang=lang==='sr'?'sr-Latn':'en-GB';
- const set=(sel,val,html=false)=>{const el=document.querySelector(sel);if(el){if(html)el.innerHTML=val;else el.textContent=val}};
- set('.brand-sub',t.brandSub);set('#status',t.status);set('#customBtn',t.customBtn);set('#custom .eyebrow',t.customEyebrow);set('#custom h1',t.customTitle);set('#custom .lead',t.customLead);set('#keypad [data-key="clear"]',t.clear);set('#custom [data-go="home"]',t.back);set('#continueCustom',t.continue);
- set('#home .eyebrow',t.homeEyebrow);set('#home h1',t.homeTitle);set('#home .lead',t.homeLead);document.querySelectorAll('#home .amount small').forEach(el=>el.textContent=t.donation);set('#home .small',t.max);
- set('#gift .eyebrow',t.detailsEyebrow);set('#gift h1',t.yourDonation);set('#gift .lead',t.giftQuestion);set('#gift .gift strong',t.giftYes);set('#gift .gift span',t.giftYes+'<br>'+t.giftAidText,true);set('#gift .notice',t.giftNotice);set('#gift [data-go="home"]',t.cancel);set('#pay',t.pay);
- set('#giftAidForm .eyebrow',t.formEyebrow);set('#giftAidForm h1',t.formTitle);set('#giftAidForm .lead',t.formLead);set('#giftAidForm .notice',t.formNotice);set('#giftFormCancel',t.formCancel);set('#giftFormDone',t.formDone);
- set('#giftAidAssist .eyebrow',t.assistEyebrow);set('#giftAidAssist h1',t.assistTitle);set('#giftAidAssist .lead',t.assistLead);set('#giftAidAssist .notice',t.assistNotice);set('#staffCodeBtn',t.staffCode);
- set('#pin .eyebrow',t.pinEyebrow);set('#pin h1',t.pinTitle);set('#pin .lead',t.pinLead);set('#pinCancel',t.pinCancel);set('#pinSubmit',t.pinContinue);set('#pinInput','',false);$('pinInput').placeholder=t.pinPlaceholder;
- set('#staff .eyebrow',t.staffEyebrow);set('#staff h1',t.staffTitle);set('#staff .lead',t.staffLead);set('#staffHome',t.staffHome);set('#attended',t.approve);set('#openHistory',t.historyButton);set('#staff .small',t.staffWarning);
- set('#history .eyebrow',t.historyEyebrow);set('#history h1',t.historyTitle);set('#history .lead',t.historyLead);set('#historyBack',t.historyBack);set('#exportHistory',t.export);set('#history .small',t.historyWarning);set('#history th:nth-child(1)',t.dateTime);set('#history th:nth-child(2)',t.amount);set('#history th:nth-child(3)',t.payment);set('#history th:nth-child(4)',t.giftAid);
- set('#processing .eyebrow',t.processingEyebrow);set('#processing h1',t.processingTitle);set('#processing .lead',t.processingLead);set('#processing .notice',t.processingNotice);set('#cancelPay',t.cancel);set('#simulate',t.simulate);
- set('#success .eyebrow',t.thanksEyebrow);set('#success h1',t.thanksTitle);set('#success .lead',t.thanksLead);set('#success .notice',t.thanksNotice);set('#finish',t.finish);set('footer span',t.footer);set('#staffAccess',t.staffAccess);set('#hiddenStaff',t.staffAccess);
- set('#languageTitle',lang==='sr'?'Izaberite jezik':'Choose your language');set('#languageLead',lang==='sr'?'Izaberite jezik koji vam odgovara.':'Please select the language you prefer.');
-}
-const MAX=499, JOTFORM_BASE='https://form.jotform.com/262752916973066';
-let amount=0,entry='',returnScreen='gift',giftAidStatus='No';const $=id=>document.getElementById(id);const screens=[...document.querySelectorAll('.screen')];
-function show(id){screens.forEach(s=>s.classList.toggle('active',s.id===id));if(id==='history'&&getHistory().length===0){$('historyRows').innerHTML='<tr><td colspan="4" class="history-empty">'+copy[language].historyEmpty+'</td></tr>';}$('status').textContent=['pin','staff','history'].includes(id)?'Staff mode':id==='success'?'Thank you':'Donation point';if(id==='pin'){$('pinInput').value='';$('pinError').textContent='';setTimeout(()=>$('pinInput').focus(),50)}if(id==='history')renderHistory()}
-function money(n){return new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(n)}
-function getHistory(){try{return JSON.parse(localStorage.getItem('churchGivingDemoHistory')||'[]')}catch(e){return []}}
-function saveHistory(rows){try{localStorage.setItem('churchGivingDemoHistory',JSON.stringify(rows))}catch(e){}}
-function renderHistory(){const rows=getHistory(),today=new Date().toLocaleDateString('en-GB');const total=rows.reduce((a,r)=>a+Number(r.amount||0),0);const todayTotal=rows.filter(r=>new Date(r.timestamp).toLocaleDateString('en-GB')===today).reduce((a,r)=>a+Number(r.amount||0),0);$('todayTotal').textContent=money(todayTotal);$('allTotal').textContent=money(total);$('historyRows').innerHTML=rows.length?rows.slice().reverse().map(r=>'<tr><td>'+new Date(r.timestamp).toLocaleString('en-GB')+'</td><td>'+money(Number(r.amount))+'</td><td>'+escapeHtml(r.payment)+'</td><td>'+escapeHtml(r.giftAid)+'</td></tr>').join(''):'<tr><td colspan="4" class="history-empty">No demo donations recorded yet.</td></tr>'}
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function choose(n){if(!Number.isFinite(n)||n<1||n>MAX)return;amount=Math.round(n*100)/100;$('giftAmount').textContent=money(amount);$('giftCheck').checked=false;giftAidStatus='No';show('gift')}
-$('englishBtn').onclick=()=>{setLanguage('en');show('home')};$('serbianBtn').onclick=()=>{setLanguage('sr');show('home')};
-document.querySelectorAll('[data-amount]').forEach(b=>b.addEventListener('click',()=>choose(Number(b.dataset.amount))));
-$('customBtn').onclick=()=>{entry='';$('customAmount').value='';$('amountError').textContent='';show('custom')};
-document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
-$('keypad').onclick=e=>{const b=e.target.closest('[data-key]');if(!b)return;const k=b.dataset.key;if(k==='clear')entry='';else if(k==='back')entry=entry.slice(0,-1);else if(entry.length<6)entry+=k;$('customAmount').value=entry?money(Number(entry)/100):'';$('amountError').textContent=''};
-$('continueCustom').onclick=()=>{const n=Number(entry)/100;if(!entry||n<1||n>MAX){$('amountError').textContent='Enter an amount from £1.00 to £499.00.';return}choose(n)};
-function openGiftAidForm(){giftAidStatus='Form opened — submission not verified';$('formAmount').textContent=money(amount);/* Replace donationAmount with the actual unique name of the amount field in Jotform. */const url=JOTFORM_BASE+'?donationAmount='+encodeURIComponent(amount.toFixed(2));$('jotformFrame').src=url;show('giftAidForm')}
-$('pay').onclick=()=>{if($('giftCheck').checked){openGiftAidForm()}else{giftAidStatus='No';returnScreen='gift';show('processing')}};
-$('giftFormDone').onclick=()=>{giftAidStatus='Form completion self-reported — not verified';returnScreen='giftAidForm';show('processing')};
-$('giftFormCancel').onclick=()=>show('gift');
-$('cancelPay').onclick=()=>show(returnScreen==='giftAidForm'?'gift':returnScreen);
-$('simulate').onclick=()=>{$('successAmount').textContent=money(amount);const rows=getHistory();rows.push({timestamp:new Date().toISOString(),amount:amount,payment:'SIMULATED — not real',giftAid:giftAidStatus});saveHistory(rows);show('success')};
-function reset(){amount=0;entry='';giftAidStatus='No';$('giftCheck').checked=false;show('home')}$('finish').onclick=reset;
-function openPin(){returnScreen=document.querySelector('.screen.active')?.id==='giftAidAssist'?'giftAidAssist':'home';show('pin')}
-$('staffAccess').onclick=openPin;$('hiddenStaff').onclick=openPin;$('staffCodeBtn').onclick=()=>{returnScreen='giftAidAssist';show('pin')};$('pinCancel').onclick=()=>show(returnScreen==='giftAidAssist'?'giftAidAssist':'home');
-function checkPin(){if($('pinInput').value===STAFF_PIN){$('staffNotice').textContent=returnScreen==='giftAidAssist'?'Gift Aid staff check completed in this demo. Continue only after checking the donor declaration.':'Staff access is active. Use the terminal itself to complete any supported payment approval.';show('staff')}else{$('pinError').textContent='PIN not recognised. Please try again.';$('pinInput').value=''}}
-$('pinSubmit').onclick=checkPin;$('pinInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkPin()});
-$('attended').onclick=()=>{if(returnScreen==='giftAidAssist'){returnScreen='giftAid';show('processing')}else{reset()}};
-$('staffHome').onclick=reset;$('openHistory').onclick=()=>show('history');$('historyBack').onclick=()=>show('staff');
-$('exportHistory').onclick=()=>{const rows=getHistory();const csv=[['Date & time','Amount GBP','Payment status','Gift Aid status'],...rows.map(r=>[new Date(r.timestamp).toLocaleString('en-GB'),Number(r.amount).toFixed(2),r.payment,r.giftAid])].map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='church-donation-demo-history.csv';a.click();URL.revokeObjectURL(a.href)};
-setLanguage('en');
+(() => {
+  "use strict";
+  const API = "https://acyjdlrsvtgqqazzxzys.supabase.co/functions/v1/church-cash-donations";
+  const $ = id => document.getElementById(id);
+  const dictionary = {
+    en:{brand:"CHURCH GIVING",subtitle:"Thank you for your generosity",badge:"CASH ONLY · Pay at church desk",giving:"Cash donations",choose:"How much would you like to give?",chooseSub:"Choose an amount to receive a reference number. Pay cash at the church desk.",donation:"Donation",otherAmount:"Enter another amount",maxNotice:"Cash only. Amounts are in GBP (£), maximum £499 per donation.",custom:"Custom donation",enterAmount:"Enter your amount",amountLabel:"Amount in pounds (£)",between:"Please enter an amount between £1 and £499.",back:"Back",continue:"Continue",review:"Review your donation",cashDesk:"Cash payment at the church desk",cashOnly:"Cash only.",reviewText:"After you receive your reference number, go to the church desk, say the number and give the staff member your cash. Your donation is only recorded as paid when the desk confirms receiving it.",getRef:"Get my cash reference",yourRef:"Your cash donation reference",showDesk:"Tell this number to the church desk",reference:"DONATION REFERENCE",pending:"AWAITING CASH · NOT PAID",step1:"1. Go to the church desk",step1Text:"Show or tell the staff your reference number.",step2:"2. Pay the exact cash amount",step2Text:"The staff member will check your reference and confirm the payment after receiving the cash.",notReceipt:"This reference is not a receipt or proof of payment. Please ask the church desk for confirmation after paying.",next:"Next customer",staff:"Staff access",footer:"No card payments · Please pay cash at the church desk",invalid:"Enter an amount from £1 to £499, with up to two decimal places.",issue:"Unable to issue a reference. Please ask at the church desk.",loading:"Issuing your reference…",reset:"The screen will reset for the next visitor shortly."},
+    sr:{brand:"ЦРКВЕНИ ПРИЛОЗИ",subtitle:"Хвала на вашој доброти",badge:"САМО ГОТОВИНА · Плаћање за црквеним пултом",giving:"Прилози у готовини",choose:"Колико желите да приложите?",chooseSub:"Изаберите износ и добијте број. Уплатите готовину за црквеним пултом.",donation:"Прилог",otherAmount:"Унесите други износ",maxNotice:"Само готовина. Износи су у фунтама (£), највише £499 по прилогу.",custom:"Износ прилога",enterAmount:"Унесите износ",amountLabel:"Износ у фунтама (£)",between:"Унесите износ од £1 до £499.",back:"Назад",continue:"Настави",review:"Проверите прилог",cashDesk:"Плаћање готовином за црквеним пултом",cashOnly:"Само готовина.",reviewText:"Када добијете број, идите до црквеног пулта, реците број и предајте новац. Прилог се бележи као плаћен тек када особље потврди пријем готовине.",getRef:"Преузми број за уплату",yourRef:"Ваш број за уплату готовином",showDesk:"Реците овај број за црквеним пултом",reference:"БРОЈ ПРИЛОГА",pending:"ЧЕКА СЕ ГОТОВИНА · НИЈЕ ПЛАЋЕНО",step1:"1. Идите до црквеног пулта",step1Text:"Покажите или реците особљу број прилога.",step2:"2. Уплатите тачан износ готовином",step2Text:"Особље ће проверити број и потврдити уплату након пријема готовине.",notReceipt:"Овај број није признаница нити доказ о уплати. Затражите потврду од црквеног особља након плаћања.",next:"Следећи посетилац",staff:"Приступ особљу",footer:"Без плаћања картицом · Готовина на црквеном пулту",invalid:"Унесите износ од £1 до £499, са највише две децимале.",issue:"Број није могуће издати. Обратите се особљу.",loading:"Креирање вашег броја…",reset:"Екран ће се ускоро вратити на почетак."}
+  };
+  let lang="en",amountPence=0,resetTimer=null;
+  const text=k=>dictionary[lang][k]||dictionary.en[k];
+  const money=p=>new Intl.NumberFormat("en-GB",{style:"currency",currency:"GBP"}).format(p/100);
+  const screens=[...document.querySelectorAll(".screen")];
+  function screen(id){screens.forEach(el=>el.classList.toggle("active",el.id===id));if(id!=="ticketView"&&resetTimer){clearTimeout(resetTimer);resetTimer=null}}
+  function translate(){
+    document.documentElement.lang=lang;
+    $("brand").textContent=text("brand");$("subtitle").textContent=text("subtitle");$("cashBadge").textContent=text("badge");$("footerNote").textContent=text("footer");$("staffLink").textContent=text("staff");
+    document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=text(el.dataset.i18n));
+  }
+  function reset(){amountPence=0;$("customInput").value="";$("customError").textContent="";$("createError").textContent="";$("ticketNumber").textContent="---";lang="en";translate();screen("languageView")}
+  function choose(pence){
+    if(!Number.isSafeInteger(pence)||pence<100||pence>49900){$("customError").textContent=text("invalid");return}
+    amountPence=pence;$("reviewAmount").textContent=money(pence);$("createError").textContent="";screen("reviewView");
+  }
+  $("english").onclick=()=>{lang="en";translate();screen("homeView")};
+  $("serbian").onclick=()=>{lang="sr";translate();screen("homeView")};
+  document.querySelectorAll("[data-amount]").forEach(b=>b.onclick=()=>choose(Number(b.dataset.amount)*100));
+  $("customButton").onclick=()=>{screen("customView");$("customInput").focus()};
+  $("backHome").onclick=()=>screen("homeView");
+  $("customContinue").onclick=()=>{
+    const val=$("customInput").value.trim();
+    if(!/^(?:\d{1,3})(?:\.\d{1,2})?$/.test(val)){ $("customError").textContent=text("invalid");return }
+    choose(Math.round(Number(val)*100));
+  };
+  $("reviewBack").onclick=()=>screen("homeView");
+  $("createTicket").onclick=async()=>{
+    const b=$("createTicket");b.disabled=true;$("reviewBack").disabled=true;b.textContent=text("loading");$("createError").textContent="";
+    try{
+      const response=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"create",amountPence})});
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok||!data.ok||!data.ticket?.reference)throw Error(data.error||text("issue"));
+      $("ticketNumber").textContent=data.ticket.reference;
+      $("ticketAmount").textContent=money(data.ticket.amountPence);
+      $("autoResetNote").textContent=text("reset");
+      screen("ticketView");
+      resetTimer=setTimeout(reset,120000);
+    }catch(e){$("createError").textContent=e?.message||text("issue")}
+    finally{b.disabled=false;$("reviewBack").disabled=false;b.textContent=text("getRef")}
+  };
+  $("nextCustomer").onclick=reset;
+  translate();
 })();
-</script></body></html>
+</script>
+</body>
+</html>
