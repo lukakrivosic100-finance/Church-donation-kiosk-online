@@ -18,7 +18,9 @@ label{font-weight:700;display:block;margin:14px 0 7px}input{width:100%;min-heigh
 .history{overflow-x:auto}.history table{width:100%;border-collapse:collapse;min-width:540px}.history th,.history td{text-align:left;padding:12px 9px;border-bottom:1px solid #466554}.history th{color:var(--gold);font-size:.8rem;white-space:nowrap}.history td{font-size:.9rem}.history button{padding:7px 10px;min-height:36px;font-size:.8rem}.pill{display:inline-block;border:1px solid #6b876c;border-radius:99px;padding:3px 8px;text-transform:uppercase;font-size:.73rem;letter-spacing:.06em}
 .small{font-size:.84rem}.center{text-align:center}footer{color:var(--muted);font-size:.8rem;margin-top:32px}
 @media(max-width:580px){.results{grid-template-columns:1fr}.actions>*{min-width:115px}.history table{min-width:490px}}
+.daily-verse-box{text-align:center;border-color:var(--gold);padding:30px 22px}.daily-verse-box blockquote{font:italic clamp(1.25rem,4vw,1.75rem)/1.5 Georgia,"Times New Roman",serif;color:var(--cream);margin:15px auto;max-width:590px}.daily-verse-box .cross{color:var(--gold);font-size:3rem}.daily-verse-box button{margin-top:10px}
 </style>
+<script src="daily-verse.js" defer></script>
 </head>
 <body><div class="wrap">
 <header><div><div style="color:var(--gold);font-size:.85rem;font-weight:800">CHURCH COMMUNITY · STAFF ONLY</div><h1>Cash Donation Desk</h1><p class="muted">Receive cash, check the reference and record the payment securely.</p></div><a href="index.html">Back to donor kiosk</a></header>
@@ -32,6 +34,14 @@ label{font-weight:700;display:block;margin:14px 0 7px}input{width:100%;min-heigh
 </form>
 <p class="status" id="loginStatus" role="status" aria-live="polite"></p>
 </div>
+<section id="deskVerse" class="card daily-verse-box hidden" tabindex="-1" aria-live="polite">
+<div class="cross" aria-hidden="true">☦</div>
+<h2 id="deskVerseTitle">Daily Bible verse</h2>
+<blockquote id="deskVerseText"></blockquote>
+<p class="muted" id="deskVerseRef"></p>
+<p class="muted" id="deskVerseMessage">You are signed out.</p>
+<button id="deskVerseReturn" type="button">Return to sign in</button>
+</section>
 <div id="workspace" class="hidden">
 <div class="card"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><h2>Cash-desk records</h2><div id="staffName" class="muted"></div></div><button class="secondary" id="logout" type="button">Sign out</button></div>
 <div class="notice"><strong>Cash must be physically received first.</strong> A donor's reference is <strong>not proof of payment</strong>. Do not press Mark Paid until you have counted and accepted the cash.</div>
@@ -136,10 +146,29 @@ $("export").onclick=()=>{
  const csv=[["Reference","Amount GBP","Status","Created","Paid"],...records.map(t=>[t.reference,(t.amountPence/100).toFixed(2),t.status,t.createdAt||"",t.paidAt||""])].map(row=>row.map(c=>'"'+String(c).replaceAll('"','""')+'"').join(",")).join("\r\n");
  const url=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="church-cash-recent-records.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
 };
+function displaySignoutVerse(){
+ const verse=window.ChurchDailyVerse.get("en");
+ $("deskVerseTitle").textContent=verse.title;
+ $("deskVerseText").textContent=verse.verse;
+ $("deskVerseRef").textContent=verse.reference;
+ $("deskVerseMessage").textContent=verse.signedOut;
+ $("deskVerseReturn").textContent=verse.returnLabel;
+ $("deskVerse").classList.remove("hidden");
+ $("deskVerse").focus();
+}
+$("deskVerseReturn").onclick=()=>{
+ $("deskVerse").classList.add("hidden");
+ $("login").classList.remove("hidden");
+ status("",false,"loginStatus");
+};
 $("logout").onclick=async()=>{
- const current=sessionToken;sessionToken="";selected=null;records=[];$("workspace").classList.add("hidden");$("login").classList.remove("hidden");clearTicket();$("pin").value="";$("username").value="";
+ const current=sessionToken;
+ sessionToken="";selected=null;records=[];
+ $("workspace").classList.add("hidden");
+ clearTicket();
+ $("pin").value="";$("username").value="";
  try{if(current)await call("staff-pin",{action:"logout",sessionToken:current})}catch(_){}
- status("Signed out.",false,"loginStatus");
+ displaySignoutVerse();
 };
 })();
 </script></body></html>
