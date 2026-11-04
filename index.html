@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#102c24">
 <meta name="robots" content="noindex,nofollow">
-<title>Church Giving | Cash Donations</title>
+<title>St Sava Church West Ealing | Church Giving</title>
 <style>
 :root{--bg:#102c24;--panel:#193a2f;--panel2:#21483a;--gold:#e6c778;--cream:#fff9e9;--muted:#c4d0c6;--line:#47715a;--green:#aaf0be;--danger:#ffd7d0}*{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:var(--bg);color:var(--cream);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -31,7 +31,7 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
 <body>
 <div class="app">
 <header class="top">
-  <div class="brand"><span class="mark" aria-hidden="true"><svg viewBox="0 0 48 48" width="30" height="30" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" fill="none"><path d="M24 5v38M17 12h14M10 22h28M16 36l16-5"/></svg></span><span><span class="brand-title" id="brand">CHURCH GIVING</span><span class="brand-sub" id="subtitle" style="display:block">Thank you for your generosity</span></span></div>
+  <div class="brand"><span class="mark" aria-hidden="true"><svg viewBox="0 0 48 48" width="30" height="30" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" fill="none"><path d="M24 5v38M17 12h14M10 22h28M16 36l16-5"/></svg></span><span><span class="brand-title" id="brand">St Sava Church West Ealing</span><span class="brand-sub" id="subtitle" style="display:block">Thank you for your generosity</span></span></div>
   <div class="cash-badge" id="cashBadge">CASH REAL · CARD DEMO ONLY</div>
 </header>
 <main>
@@ -135,7 +135,7 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
   function screen(id){screens.forEach(el=>el.classList.toggle("active",el.id===id));if(id!=="ticketView"&&resetTimer){clearTimeout(resetTimer);resetTimer=null}}
   function translate(){
     document.documentElement.lang=lang;
-    $("brand").textContent=text("brand");$("subtitle").textContent=text("subtitle");$("cashBadge").textContent=text("badge");$("footerNote").textContent=text("footer");$("staffLink").textContent=text("staff");
+    $("brand").textContent="St Sava Church West Ealing";$("subtitle").textContent=text("subtitle");$("cashBadge").textContent=text("badge");$("footerNote").textContent=text("footer");$("staffLink").textContent=text("staff");
     document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=text(el.dataset.i18n));
   }
   function reset(){if(resetTimer!==null){clearTimeout(resetTimer);resetTimer=null;}if(verseTimer!==null){clearTimeout(verseTimer);verseTimer=null;}amountPence=0;$("customInput").value="";$("customError").textContent="";$("createError").textContent="";$("ticketNumber").textContent="---";lang="en";translate();screen("languageView")}
