@@ -147,11 +147,9 @@ $("export").onclick=()=>{
  const url=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="church-cash-recent-records.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
 };
 let verseReturnTimer=null;
-function returnToStaffLogin(){
+function returnToDonationStart(){
  if(verseReturnTimer!==null){clearTimeout(verseReturnTimer);verseReturnTimer=null;}
- $("deskVerse").classList.add("hidden");
- $("login").classList.remove("hidden");
- status("",false,"loginStatus");
+ window.location.assign("index.html");
 }
 function displaySignoutVerse(){
  if(verseReturnTimer!==null){clearTimeout(verseReturnTimer);verseReturnTimer=null;}
@@ -159,15 +157,15 @@ function displaySignoutVerse(){
  $("deskVerseTitle").textContent=verse.title;
  $("deskVerseText").textContent=verse.verse;
  $("deskVerseRef").textContent=verse.reference;
- $("deskVerseMessage").textContent="Signed out. Returning to staff login in 5 seconds…";
- $("deskVerseReturn").textContent=verse.returnLabel;
+ $("deskVerseMessage").textContent="Signed out. Returning to the donation start in 5 seconds…";
+ $("deskVerseReturn").textContent="Return to donation start";
  $("login").classList.add("hidden");
  $("deskVerse").classList.remove("hidden");
  $("deskVerse").focus();
  // Text only: display the verse for five seconds, then return to staff login.
- verseReturnTimer=setTimeout(returnToStaffLogin,5000);
+ verseReturnTimer=setTimeout(returnToDonationStart,5000);
 }
-$("deskVerseReturn").onclick=returnToStaffLogin;
+$("deskVerseReturn").onclick=returnToDonationStart;
 $("logout").onclick=async()=>{
  const current=sessionToken;
  sessionToken="";selected=null;records=[];
