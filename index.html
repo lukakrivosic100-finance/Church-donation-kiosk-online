@@ -24,7 +24,9 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
 @media(max-width:620px){.amounts{grid-template-columns:repeat(2,1fr)}.amount{min-height:91px}.steps{grid-template-columns:1fr}.cash-badge{font-size:.78rem}.brand-title{font-size:1rem}.mark{width:45px;height:45px}.app{gap:13px}.ticket{padding:18px}.button{min-height:55px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 .demo-icon{width:93px;height:68px;border:2px solid #d7b963;border-radius:14px;background:linear-gradient(125deg,#224e43,#102e27);margin:15px auto;display:grid;place-items:center;color:#e6c778;font-size:2.6rem}.demo-tag{background:#fff0ba;color:#654a00;font-size:.8rem;letter-spacing:.12em;font-weight:950;display:inline-block;border-radius:99px;padding:9px 15px;margin:10px auto}.demo-message{border:2px solid var(--gold);padding:22px;background:#153a2c;border-radius:18px;max-width:560px;margin:20px auto}.demo-message strong{color:var(--gold)}
+.verse-heading{font-size:clamp(1.25rem,3vw,1.65rem);font-weight:700;color:var(--gold)}.verse-quote{font:italic clamp(1.5rem,4vw,2.4rem)/1.5 Georgia,"Times New Roman",serif;color:var(--cream);margin:25px auto;max-width:620px}.verse-reference{color:var(--gold);font-weight:700}.verse-cross{color:var(--gold);font-size:3rem;margin:0 auto 15px}
 </style>
+<script src="daily-verse.js" defer></script>
 </head>
 <body>
 <div class="app">
@@ -33,6 +35,14 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
   <div class="cash-badge" id="cashBadge">CASH REAL · CARD DEMO ONLY</div>
 </header>
 <main>
+  <section class="screen" id="verseView" aria-live="polite">
+    <div class="verse-cross" aria-hidden="true">☦</div>
+    <div class="verse-heading" id="verseTitle">Daily Bible verse</div>
+    <blockquote class="verse-quote" id="verseText"></blockquote>
+    <p class="verse-reference" id="verseReference"></p>
+    <p class="lead" id="verseResetMessage">Thank you. Returning to the start in 5 seconds…</p>
+    <button class="button secondary" type="button" id="verseSkip">Next customer</button>
+  </section>
   <section class="screen active" id="languageView">
     <div class="eyebrow">Welcome · Добро дошли</div>
     <h1>Choose your language</h1><p class="lead">Изаберите језик · Select your language</p>
@@ -115,10 +125,10 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
   const API = "https://acyjdlrsvtgqqazzxzys.supabase.co/functions/v1/church-cash-donations";
   const $ = id => document.getElementById(id);
   const dictionary = {
-    en:{brand:"CHURCH GIVING",subtitle:"Thank you for your generosity",badge:"CASH REAL · CARD DEMO ONLY",giving:"Cash donations",choose:"How much would you like to give?",chooseSub:"Choose an amount, then pay cash at the desk or try the card demonstration.",donation:"Donation",otherAmount:"Enter another amount",maxNotice:"Real donations: cash at the desk. Card: DEMO ONLY. GBP (£), maximum £499.",custom:"Custom donation",enterAmount:"Enter your amount",amountLabel:"Amount in pounds (£)",between:"Please enter an amount between £1 and £499.",back:"Back",continue:"Continue",review:"Review your donation",cashDesk:"Cash payment at the church desk",cashOnly:"Cash only.",reviewText:"After you receive your reference number, go to the church desk, say the number and give the staff member your cash. Your donation is only recorded as paid when the desk confirms receiving it.",getRef:"Get my cash reference",yourRef:"Your cash donation reference",showDesk:"Tell this number to the church desk",reference:"DONATION REFERENCE",pending:"AWAITING CASH · NOT PAID",step1:"1. Go to the church desk",step1Text:"Show or tell the staff your reference number.",step2:"2. Pay the exact cash amount",step2Text:"The staff member will check your reference and confirm the payment after receiving the cash.",notReceipt:"This reference is not a receipt or proof of payment. Please ask the church desk for confirmation after paying.",next:"Next customer",staff:"Staff access",footer:"Real payments: cash at the desk · Card mode is demo only",invalid:"Enter an amount from £1 to £499, with up to two decimal places.",issue:"Unable to issue a reference. Please ask at the church desk.",loading:"Issuing your reference…",reset:"The screen will reset for the next visitor shortly.",methodEyebrow:"Choose a payment method",methodTitle:"How would you like to give?",methodIntro:"Cash is accepted at the church desk. Card is a demonstration only and cannot take money.",methodCash:"Pay with cash at church desk",methodCard:"Card payment · DEMO ONLY",methodWarning:"Card mode is a simulation: no bank details, no payment processing, no receipt and no cash donation ticket.",cardEyebrow:"CARD DEMONSTRATION — NO REAL PAYMENT",cardTitle:"Try a pretend card donation",demoBadge:"DEMO ONLY · NO MONEY TAKEN",demoInstructions:"Imagine tapping your card on the reader. This demo will not connect to a terminal, ask for card details or charge a bank account.",simulateCard:"Simulate card payment",demoCompleteTitle:"Card demonstration complete",notCharged:"No money was charged.",demoCompleteText:"This was only a card-payment simulation. It does not create a real donation or receipt. To donate for real, choose cash and pay at the church desk."},
-    sr:{brand:"ЦРКВЕНИ ПРИЛОЗИ",subtitle:"Хвала на вашој доброти",badge:"ГОТОВИНА ЗА ПЛАЋАЊЕ · КАРТИЦА САМО ДЕМО",giving:"Прилози у готовини",choose:"Колико желите да приложите?",chooseSub:"Изаберите износ, па уплатите готовину на пулту или пробајте демонстрацију картице.",donation:"Прилог",otherAmount:"Унесите други износ",maxNotice:"Стварни прилози: готовина на пулту. Картица: САМО ДЕМО. Износи у фунтама (£), највише £499.",custom:"Износ прилога",enterAmount:"Унесите износ",amountLabel:"Износ у фунтама (£)",between:"Унесите износ од £1 до £499.",back:"Назад",continue:"Настави",review:"Проверите прилог",cashDesk:"Плаћање готовином за црквеним пултом",cashOnly:"Само готовина.",reviewText:"Када добијете број, идите до црквеног пулта, реците број и предајте новац. Прилог се бележи као плаћен тек када особље потврди пријем готовине.",getRef:"Преузми број за уплату",yourRef:"Ваш број за уплату готовином",showDesk:"Реците овај број за црквеним пултом",reference:"БРОЈ ПРИЛОГА",pending:"ЧЕКА СЕ ГОТОВИНА · НИЈЕ ПЛАЋЕНО",step1:"1. Идите до црквеног пулта",step1Text:"Покажите или реците особљу број прилога.",step2:"2. Уплатите тачан износ готовином",step2Text:"Особље ће проверити број и потврдити уплату након пријема готовине.",notReceipt:"Овај број није признаница нити доказ о уплати. Затражите потврду од црквеног особља након плаћања.",next:"Следећи посетилац",staff:"Приступ особљу",footer:"Стварна уплата: готовина на пулту · Картица само демо",invalid:"Унесите износ од £1 до £499, са највише две децимале.",issue:"Број није могуће издати. Обратите се особљу.",loading:"Креирање вашег броја…",reset:"Екран ће се ускоро вратити на почетак.",methodEyebrow:"Изаберите начин плаћања",methodTitle:"Како желите да приложите?",methodIntro:"Готовина се прима на црквеном пулту. Картица је само демонстрација и не наплаћује новац.",methodCash:"Уплати готовином на пулту",methodCard:"Плаћање картицом · САМО ДЕМО",methodWarning:"Режим картице је симулација: без података о картици, праве наплате, признанице или броја за готовину.",cardEyebrow:"ДЕМОНСТРАЦИЈА КАРТИЦЕ — НЕМА ПРАВЕ НАПЛАТЕ",cardTitle:"Пробајте пробни прилог картицом",demoBadge:"САМО ДЕМО · НОВАЦ НИЈЕ НАПЛАЋЕН",demoInstructions:"Замислите да прислањате картицу читачу. Овај демо није повезан с терминалом, не тражи податке о картици и не наплаћује новац.",simulateCard:"Симулирај плаћање картицом",demoCompleteTitle:"Демонстрација картице је завршена",notCharged:"Новац није наплаћен.",demoCompleteText:"Ово је само симулација. Није направљен стварни прилог ни признаница. За стварну уплату изаберите готовину и платите на црквеном пулту."}
+    en:{brand:"CHURCH GIVING",subtitle:"Thank you for your generosity",badge:"CASH REAL · CARD DEMO ONLY",giving:"Cash donations",choose:"How much would you like to give?",chooseSub:"Choose an amount, then pay cash at the desk or try the card demonstration.",donation:"Donation",otherAmount:"Enter another amount",maxNotice:"Real donations: cash at the desk. Card: DEMO ONLY. GBP (£), maximum £499.",custom:"Custom donation",enterAmount:"Enter your amount",amountLabel:"Amount in pounds (£)",between:"Please enter an amount between £1 and £499.",back:"Back",continue:"Continue",review:"Review your donation",cashDesk:"Cash payment at the church desk",cashOnly:"Cash only.",reviewText:"After you receive your reference number, go to the church desk, say the number and give the staff member your cash. Your donation is only recorded as paid when the desk confirms receiving it.",getRef:"Get my cash reference",yourRef:"Your cash donation reference",showDesk:"Tell this number to the church desk",reference:"DONATION REFERENCE",pending:"AWAITING CASH · NOT PAID",step1:"1. Go to the church desk",step1Text:"Show or tell the staff your reference number.",step2:"2. Pay the exact cash amount",step2Text:"The staff member will check your reference and confirm the payment after receiving the cash.",notReceipt:"This reference is not a receipt or proof of payment. Please ask the church desk for confirmation after paying.",next:"Next customer",staff:"Staff access",footer:"Real payments: cash at the desk · Card mode is demo only",invalid:"Enter an amount from £1 to £499, with up to two decimal places.",issue:"Unable to issue a reference. Please ask at the church desk.",loading:"Issuing your reference…",reset:"The screen will reset for the next visitor shortly.",verseThanks:"Thank you. Returning to the start in 5 seconds…",methodEyebrow:"Choose a payment method",methodTitle:"How would you like to give?",methodIntro:"Cash is accepted at the church desk. Card is a demonstration only and cannot take money.",methodCash:"Pay with cash at church desk",methodCard:"Card payment · DEMO ONLY",methodWarning:"Card mode is a simulation: no bank details, no payment processing, no receipt and no cash donation ticket.",cardEyebrow:"CARD DEMONSTRATION — NO REAL PAYMENT",cardTitle:"Try a pretend card donation",demoBadge:"DEMO ONLY · NO MONEY TAKEN",demoInstructions:"Imagine tapping your card on the reader. This demo will not connect to a terminal, ask for card details or charge a bank account.",simulateCard:"Simulate card payment",demoCompleteTitle:"Card demonstration complete",notCharged:"No money was charged.",demoCompleteText:"This was only a card-payment simulation. It does not create a real donation or receipt. To donate for real, choose cash and pay at the church desk."},
+    sr:{brand:"ЦРКВЕНИ ПРИЛОЗИ",subtitle:"Хвала на вашој доброти",badge:"ГОТОВИНА ЗА ПЛАЋАЊЕ · КАРТИЦА САМО ДЕМО",giving:"Прилози у готовини",choose:"Колико желите да приложите?",chooseSub:"Изаберите износ, па уплатите готовину на пулту или пробајте демонстрацију картице.",donation:"Прилог",otherAmount:"Унесите други износ",maxNotice:"Стварни прилози: готовина на пулту. Картица: САМО ДЕМО. Износи у фунтама (£), највише £499.",custom:"Износ прилога",enterAmount:"Унесите износ",amountLabel:"Износ у фунтама (£)",between:"Унесите износ од £1 до £499.",back:"Назад",continue:"Настави",review:"Проверите прилог",cashDesk:"Плаћање готовином за црквеним пултом",cashOnly:"Само готовина.",reviewText:"Када добијете број, идите до црквеног пулта, реците број и предајте новац. Прилог се бележи као плаћен тек када особље потврди пријем готовине.",getRef:"Преузми број за уплату",yourRef:"Ваш број за уплату готовином",showDesk:"Реците овај број за црквеним пултом",reference:"БРОЈ ПРИЛОГА",pending:"ЧЕКА СЕ ГОТОВИНА · НИЈЕ ПЛАЋЕНО",step1:"1. Идите до црквеног пулта",step1Text:"Покажите или реците особљу број прилога.",step2:"2. Уплатите тачан износ готовином",step2Text:"Особље ће проверити број и потврдити уплату након пријема готовине.",notReceipt:"Овај број није признаница нити доказ о уплати. Затражите потврду од црквеног особља након плаћања.",next:"Следећи посетилац",staff:"Приступ особљу",footer:"Стварна уплата: готовина на пулту · Картица само демо",invalid:"Унесите износ од £1 до £499, са највише две децимале.",issue:"Број није могуће издати. Обратите се особљу.",loading:"Креирање вашег броја…",reset:"Екран ће се ускоро вратити на почетак.",verseThanks:"Хвала. Повратак на почетак за 5 секунди…",methodEyebrow:"Изаберите начин плаћања",methodTitle:"Како желите да приложите?",methodIntro:"Готовина се прима на црквеном пулту. Картица је само демонстрација и не наплаћује новац.",methodCash:"Уплати готовином на пулту",methodCard:"Плаћање картицом · САМО ДЕМО",methodWarning:"Режим картице је симулација: без података о картици, праве наплате, признанице или броја за готовину.",cardEyebrow:"ДЕМОНСТРАЦИЈА КАРТИЦЕ — НЕМА ПРАВЕ НАПЛАТЕ",cardTitle:"Пробајте пробни прилог картицом",demoBadge:"САМО ДЕМО · НОВАЦ НИЈЕ НАПЛАЋЕН",demoInstructions:"Замислите да прислањате картицу читачу. Овај демо није повезан с терминалом, не тражи податке о картици и не наплаћује новац.",simulateCard:"Симулирај плаћање картицом",demoCompleteTitle:"Демонстрација картице је завршена",notCharged:"Новац није наплаћен.",demoCompleteText:"Ово је само симулација. Није направљен стварни прилог ни признаница. За стварну уплату изаберите готовину и платите на црквеном пулту."}
   };
-  let lang="en",amountPence=0,resetTimer=null;
+  let lang="en",amountPence=0,resetTimer=null,verseTimer=null;
   const text=k=>dictionary[lang][k]||dictionary.en[k];
   const money=p=>new Intl.NumberFormat("en-GB",{style:"currency",currency:"GBP"}).format(p/100);
   const screens=[...document.querySelectorAll(".screen")];
@@ -128,7 +138,28 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
     $("brand").textContent=text("brand");$("subtitle").textContent=text("subtitle");$("cashBadge").textContent=text("badge");$("footerNote").textContent=text("footer");$("staffLink").textContent=text("staff");
     document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=text(el.dataset.i18n));
   }
-  function reset(){amountPence=0;$("customInput").value="";$("customError").textContent="";$("createError").textContent="";$("ticketNumber").textContent="---";lang="en";translate();screen("languageView")}
+  function reset(){if(resetTimer!==null){clearTimeout(resetTimer);resetTimer=null;}if(verseTimer!==null){clearTimeout(verseTimer);verseTimer=null;}amountPence=0;$("customInput").value="";$("customError").textContent="";$("createError").textContent="";$("ticketNumber").textContent="---";lang="en";translate();screen("languageView")}
+  function showVerseThenReset(){
+    if(resetTimer!==null){clearTimeout(resetTimer);resetTimer=null;}
+    if(verseTimer!==null){clearTimeout(verseTimer);verseTimer=null;}
+    const daily=window.ChurchDailyVerse.get(lang);
+    $("verseTitle").textContent=daily.title;
+    $("verseText").textContent=daily.verse;
+    $("verseReference").textContent=daily.reference;
+    $("verseResetMessage").textContent=text("verseThanks");
+    $("verseSkip").textContent=text("next");
+    $("verseView").dir=daily.direction;
+    // Clear donor details from the current screen before the next visitor arrives.
+    amountPence=0;
+    $("ticketNumber").textContent="---";
+    $("ticketAmount").textContent="£0.00";
+    $("reviewAmount").textContent="£0.00";
+    $("demoAmount").textContent="£0.00";
+    $("methodAmount").textContent="£0.00";
+    screen("verseView");
+    verseTimer=setTimeout(reset,5000);
+  }
+  $("verseSkip").onclick=reset;
   function choose(pence){
     if(!Number.isSafeInteger(pence)||pence<100||pence>49900){$("customError").textContent=text("invalid");return}
     amountPence=pence;$("reviewAmount").textContent=money(pence);$("methodAmount").textContent=money(pence);$("demoAmount").textContent=money(pence);$("createError").textContent="";screen("methodView");
@@ -150,9 +181,9 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
   $("simulateCard").onclick=()=>{
     // This is a local UI demo. Never call the cash-donation API or a payment provider.
     screen("demoCompleteView");
-    resetTimer=setTimeout(reset,120000);
+    resetTimer=setTimeout(showVerseThenReset,120000);
   };
-  $("demoNextCustomer").onclick=reset;
+  $("demoNextCustomer").onclick=showVerseThenReset;
   $("reviewBack").onclick=()=>screen("methodView");
   $("createTicket").onclick=async()=>{
     const b=$("createTicket");b.disabled=true;$("reviewBack").disabled=true;b.textContent=text("loading");$("createError").textContent="";
@@ -164,11 +195,11 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
       $("ticketAmount").textContent=money(data.ticket.amountPence);
       $("autoResetNote").textContent=text("reset");
       screen("ticketView");
-      resetTimer=setTimeout(reset,120000);
+      resetTimer=setTimeout(showVerseThenReset,120000);
     }catch(e){$("createError").textContent=e?.message||text("issue")}
     finally{b.disabled=false;$("reviewBack").disabled=false;b.textContent=text("getRef")}
   };
-  $("nextCustomer").onclick=reset;
+  $("nextCustomer").onclick=showVerseThenReset;
   translate();
 })();
 </script>
