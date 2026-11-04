@@ -24,7 +24,7 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
 @media(max-width:620px){.amounts{grid-template-columns:repeat(2,1fr)}.amount{min-height:91px}.steps{grid-template-columns:1fr}.cash-badge{font-size:.78rem}.brand-title{font-size:1rem}.mark{width:45px;height:45px}.app{gap:13px}.ticket{padding:18px}.button{min-height:55px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 .demo-icon{width:93px;height:68px;border:2px solid #d7b963;border-radius:14px;background:linear-gradient(125deg,#224e43,#102e27);margin:15px auto;display:grid;place-items:center;color:#e6c778;font-size:2.6rem}.demo-tag{background:#fff0ba;color:#654a00;font-size:.8rem;letter-spacing:.12em;font-weight:950;display:inline-block;border-radius:99px;padding:9px 15px;margin:10px auto}.demo-message{border:2px solid var(--gold);padding:22px;background:#153a2c;border-radius:18px;max-width:560px;margin:20px auto}.demo-message strong{color:var(--gold)}
-.verse-heading{font-size:clamp(1.25rem,3vw,1.65rem);font-weight:700;color:var(--gold)}.verse-quote{font:italic clamp(1.5rem,4vw,2.4rem)/1.5 Georgia,"Times New Roman",serif;color:var(--cream);margin:25px auto;max-width:620px}.verse-reference{color:var(--gold);font-weight:700}.verse-cross{color:var(--gold);font-size:3rem;margin:0 auto 15px}
+.verse-heading{font-size:clamp(1.25rem,3vw,1.65rem);font-weight:700;color:var(--gold)}.verse-quote{font:italic clamp(1.5rem,4vw,2.4rem)/1.5 Georgia,"Times New Roman",serif;color:var(--cream);margin:25px auto;max-width:620px}.verse-reference{color:var(--gold);font-weight:700}.verse-cross{color:var(--gold);font-size:3rem;margin:0 auto 15px}.daily-verse-card{max-width:610px;margin:22px auto 0;padding:16px 19px;border:1px solid #47715b;background:var(--panel);border-radius:16px}.daily-verse-label{color:var(--gold);font-weight:800;letter-spacing:.07em;font-size:.76rem;text-transform:uppercase}.daily-verse-text{font:italic clamp(1.05rem,2.5vw,1.35rem)/1.45 Georgia,"Times New Roman",serif;color:var(--cream);margin:9px auto 5px;max-width:570px}.daily-verse-secondary{color:var(--muted);font-size:.94rem;line-height:1.45;margin:6px 0}.daily-verse-ref{color:var(--gold);font-weight:750;font-size:.84rem;margin:8px 0 0}.home-verse-card{margin:17px auto 0;padding:13px 17px}.home-verse-card .daily-verse-text{font-size:clamp(1rem,2.1vw,1.2rem);margin:7px auto 3px}
 </style>
 <script src="daily-verse.js" defer></script>
 </head>
@@ -46,12 +46,23 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
   <section class="screen active" id="languageView">
     <div class="eyebrow">Welcome · Добро дошли</div>
     <h1>Choose your language</h1><p class="lead">Изаберите језик · Select your language</p>
+    <div class="daily-verse-card" id="welcomeVerseCard" aria-live="polite">
+      <div class="daily-verse-label">Daily Bible verse · Дневни библијски стих</div>
+      <blockquote class="daily-verse-text" id="welcomeVerseEnglish" lang="en"></blockquote>
+      <p class="daily-verse-secondary" id="welcomeVerseSerbian" lang="sr"></p>
+      <p class="daily-verse-ref" id="welcomeVerseReference"></p>
+    </div>
     <div class="actions"><button class="button" id="english" type="button">English</button><button class="button secondary" id="serbian" type="button">Српски</button></div>
   </section>
   <section class="screen" id="homeView">
     <div class="eyebrow" data-i18n="giving">Cash donations</div>
     <h1 data-i18n="choose">How much would you like to give?</h1>
     <p class="lead" data-i18n="chooseSub">Choose an amount to receive a reference number. Pay cash at the church desk.</p>
+    <div class="daily-verse-card home-verse-card" id="homeVerseCard" aria-live="polite">
+      <div class="daily-verse-label" id="homeVerseTitle">Daily Bible verse</div>
+      <blockquote class="daily-verse-text" id="homeVerseText"></blockquote>
+      <p class="daily-verse-ref" id="homeVerseReference"></p>
+    </div>
     <div class="amounts">
       <button class="amount" type="button" data-amount="5">£5<small data-i18n="donation">Donation</small></button>
       <button class="amount" type="button" data-amount="10">£10<small data-i18n="donation">Donation</small></button>
@@ -133,10 +144,24 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
   const money=p=>new Intl.NumberFormat("en-GB",{style:"currency",currency:"GBP"}).format(p/100);
   const screens=[...document.querySelectorAll(".screen")];
   function screen(id){screens.forEach(el=>el.classList.toggle("active",el.id===id));if(id!=="ticketView"&&resetTimer){clearTimeout(resetTimer);resetTimer=null}}
+  function updateDailyVerseDisplays(){
+    if(!window.ChurchDailyVerse)return;
+    const englishVerse=window.ChurchDailyVerse.get("en");
+    const serbianVerse=window.ChurchDailyVerse.get("sr");
+    const currentVerse=window.ChurchDailyVerse.get(lang);
+    $("welcomeVerseEnglish").textContent=englishVerse.verse;
+    $("welcomeVerseSerbian").textContent=serbianVerse.verse;
+    $("welcomeVerseReference").textContent=englishVerse.reference;
+    $("homeVerseTitle").textContent=currentVerse.title;
+    $("homeVerseText").textContent=currentVerse.verse;
+    $("homeVerseReference").textContent=currentVerse.reference;
+    $("homeVerseCard").dir=currentVerse.direction;
+  }
   function translate(){
     document.documentElement.lang=lang;
     $("brand").textContent="St Sava Church West Ealing";$("subtitle").textContent=text("subtitle");$("cashBadge").textContent=text("badge");$("footerNote").textContent=text("footer");$("staffLink").textContent=text("staff");
     document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=text(el.dataset.i18n));
+    updateDailyVerseDisplays();
   }
   function reset(){if(resetTimer!==null){clearTimeout(resetTimer);resetTimer=null;}if(verseTimer!==null){clearTimeout(verseTimer);verseTimer=null;}amountPence=0;$("customInput").value="";$("customError").textContent="";$("createError").textContent="";$("ticketNumber").textContent="---";lang="en";translate();screen("languageView")}
   function showVerseThenReset(){
@@ -200,6 +225,7 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
     finally{b.disabled=false;$("reviewBack").disabled=false;b.textContent=text("getRef")}
   };
   $("nextCustomer").onclick=showVerseThenReset;
+  window.addEventListener("DOMContentLoaded",updateDailyVerseDisplays,{once:true});
   translate();
 })();
 </script>
