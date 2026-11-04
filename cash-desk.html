@@ -15,7 +15,7 @@ label{font-weight:700;display:block;margin:14px 0 7px}input{width:100%;min-heigh
 .status{min-height:25px;color:var(--gold);margin:12px 0;font-weight:650}.status.error{color:var(--danger)}
 .results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0}.stat{background:#102f23;border:1px solid #416850;border-radius:12px;padding:15px}.stat strong{display:block;font-size:1.5rem;color:var(--gold)}.stat small{color:var(--muted)}
 .ticket-card{background:#f8f4dc;color:#183427;border-radius:15px;padding:22px;display:grid;gap:10px}.ticket-card strong{font-size:2.5rem;letter-spacing:.04em}.ticket-card p{margin:0}.ticket-card .sub{color:#516a5c}.ticket-card .pending{background:#fff0bb;color:#614610;padding:8px 12px;border-radius:12px;display:inline-block;width:max-content;font-weight:850}.ticket-card .paid{background:#baf4c6;color:#1d6132;padding:8px 12px;border-radius:12px;width:max-content;font-weight:850}.ticket-card .void{background:#eedddd;color:#782e2e;padding:8px 12px;border-radius:12px;width:max-content;font-weight:850}
-.history{overflow-x:auto}.history table{width:100%;border-collapse:collapse;min-width:540px}.history th,.history td{text-align:left;padding:12px 9px;border-bottom:1px solid #466554}.history th{color:var(--gold);font-size:.8rem;white-space:nowrap}.history td{font-size:.9rem}.history button{padding:7px 10px;min-height:36px;font-size:.8rem}.pill{display:inline-block;border:1px solid #6b876c;border-radius:99px;padding:3px 8px;text-transform:uppercase;font-size:.73rem;letter-spacing:.06em}
+.filter-label{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--muted);font-weight:650}.filter-label input{width:20px;height:20px;min-height:0;accent-color:var(--gold);flex:none}.history{overflow-x:auto}.history table{width:100%;border-collapse:collapse;min-width:540px}.history th,.history td{text-align:left;padding:12px 9px;border-bottom:1px solid #466554}.history th{color:var(--gold);font-size:.8rem;white-space:nowrap}.history td{font-size:.9rem}.history button{padding:7px 10px;min-height:36px;font-size:.8rem}.pill{display:inline-block;border:1px solid #6b876c;border-radius:99px;padding:3px 8px;text-transform:uppercase;font-size:.73rem;letter-spacing:.06em}
 .small{font-size:.84rem}.center{text-align:center}footer{color:var(--muted);font-size:.8rem;margin-top:32px}
 @media(max-width:580px){.results{grid-template-columns:1fr}.actions>*{min-width:115px}.history table{min-width:490px}}
 .daily-verse-box{text-align:center;border-color:var(--gold);padding:30px 22px}.daily-verse-box blockquote{font:italic clamp(1.25rem,4vw,1.75rem)/1.5 Georgia,"Times New Roman",serif;color:var(--cream);margin:15px auto;max-width:590px}.daily-verse-box .cross{color:var(--gold);font-size:3rem}.daily-verse-box button{margin-top:10px}
@@ -53,10 +53,10 @@ label{font-weight:700;display:block;margin:14px 0 7px}input{width:100%;min-heigh
 <p id="deskStatus" role="status" aria-live="polite" class="status"></p>
 <div class="ticket-card hidden" id="ticketDetail">
 <div class="sub">Donation reference</div><strong id="foundRef"></strong><p id="foundAmount"></p><div id="foundStatus" class="pending">AWAITING CASH</div><p class="sub small" id="foundDate"></p>
-<div id="confirmActions" class="actions hidden"><button id="markPaid" type="button">Cash received — Mark Paid</button><button id="voidTicket" type="button" class="warn">Void unpaid reference</button></div>
+<div id="confirmActions" class="actions hidden"><button id="markPaid" type="button">Cash received — Mark Paid</button><button id="voidTicket" type="button" class="warn">Void / remove from active list</button></div>
 </div>
 </div>
-<div class="card"><h2>Recent donation references</h2><p class="muted small">These entries are saved in the church database, not just this device. The list shows the most recent 150 references. Exporting CSV exports this recent list, not necessarily every historic entry.</p><div class="history"><table><thead><tr><th>Reference</th><th>Amount</th><th>Status</th><th>Created</th><th>Action</th></tr></thead><tbody id="records"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></div>
+<div class="card"><h2>Recent donation references</h2><p class="muted small">These entries are saved in the church database, not just this device. The list shows the most recent 150 references. Exporting CSV exports this recent list, not necessarily every historic entry.</p><label class="filter-label" for="showVoided"><input id="showVoided" type="checkbox"> Show voided references</label><p class="muted small">Voided references are hidden from the normal list but remain searchable and included in exports for audit. Reference numbers are never reused, so an old paper ticket cannot be mistaken for a new donation.</p><div class="history"><table><thead><tr><th>Reference</th><th>Amount</th><th>Status</th><th>Created</th><th>Action</th></tr></thead><tbody id="records"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></div>
 </div>
 <footer>Cash only · No payment cards are processed by this system · Only authorised staff can confirm a cash donation.</footer>
 </div>
@@ -86,17 +86,15 @@ function displayTicket(t){
  $("foundDate").textContent="Issued "+displayDate(t.createdAt)+(t.paidAt?" · Paid "+displayDate(t.paidAt):"");
  $("confirmActions").classList.toggle("hidden",t.status!=="pending");
 }
-async function loadRecords(){
- const res=await call("church-cash-donations",{action:"list",sessionToken:token()});
- records=res.records||[];
- const pending=records.filter(r=>r.status==="pending");
- const paid=records.filter(r=>r.status==="paid");
- $("pendingCount").textContent=String(pending.length);
- $("paidCount").textContent=String(paid.length);
- $("paidTotal").textContent=pounds(paid.reduce((v,r)=>v+r.amountPence,0));
+function renderRecords(){
+ const visibleRecords=$("showVoided").checked?records:records.filter(r=>r.status!=="void");
  const body=$("records");body.replaceChildren();
- if(!records.length){const row=document.createElement("tr"),cell=document.createElement("td");cell.colSpan=5;cell.textContent="No cash donation references yet.";row.appendChild(cell);body.appendChild(row);return;}
- for(const rec of records){
+ if(!visibleRecords.length){
+  const row=document.createElement("tr"),cell=document.createElement("td");cell.colSpan=5;
+  cell.textContent=records.length?"No active references. Enable ‘Show voided references’ to view voided records.":"No cash donation references yet.";
+  row.appendChild(cell);body.appendChild(row);return;
+ }
+ for(const rec of visibleRecords){
   const tr=document.createElement("tr");
   for(const value of [rec.reference,pounds(rec.amountPence),rec.status.toUpperCase(),displayDate(rec.createdAt)]){
    const td=document.createElement("td");td.textContent=value;tr.appendChild(td);
@@ -105,6 +103,16 @@ async function loadRecords(){
   button.onclick=()=>{$("reference").value=rec.reference;findTicket();document.getElementById("lookupForm").scrollIntoView({behavior:"smooth",block:"center"})};
   td.appendChild(button);tr.appendChild(td);body.appendChild(tr);
  }
+}
+async function loadRecords(){
+ const res=await call("church-cash-donations",{action:"list",sessionToken:token()});
+ records=res.records||[];
+ const pending=records.filter(r=>r.status==="pending");
+ const paid=records.filter(r=>r.status==="paid");
+ $("pendingCount").textContent=String(pending.length);
+ $("paidCount").textContent=String(paid.length);
+ $("paidTotal").textContent=pounds(paid.reduce((v,r)=>v+r.amountPence,0));
+ renderRecords();
 }
 async function findTicket(){
  const ref=$("reference").value.trim();if(!/^[0-9]{3,10}$/.test(ref))return status("Enter a valid reference such as 060.",true);
@@ -129,17 +137,18 @@ async function changeTicket(action){
  const ref=selected.reference,amount=pounds(selected.amountPence);
  const question=action==="mark_paid"
   ?"Have you physically received "+amount+" in cash for reference "+ref+"? This will permanently mark the donation PAID."
-  :"Void unpaid reference "+ref+" for "+amount+"? This cannot be marked paid afterward.";
+  :"Void unpaid reference "+ref+" for "+amount+" and remove it from the active list? The audit record will remain and this number will not be reused.";
  if(!window.confirm(question))return;
  const btn=$("markPaid"),voidBtn=$("voidTicket");btn.disabled=true;voidBtn.disabled=true;status("Saving the record…");
  try{const res=await call("church-cash-donations",{action,reference:ref,sessionToken:token()});displayTicket(res.ticket);
- status(action==="mark_paid"?"Cash donation recorded as PAID. Give the donor a confirmation.":"Reference voided.");
+ status(action==="mark_paid"?"Cash donation recorded as PAID. Give the donor a confirmation.":"Reference voided and hidden from the normal list. Audit record retained; number not reused.");
  await loadRecords();
  }catch(err){status(err.message||"Could not record the change. Refresh and check.",true)}
  finally{btn.disabled=false;voidBtn.disabled=false}
 }
 $("markPaid").onclick=()=>changeTicket("mark_paid");
 $("voidTicket").onclick=()=>changeTicket("void");
+$("showVoided").addEventListener("change",renderRecords);
 $("refresh").onclick=async()=>{try{await loadRecords();status("Cash records refreshed.")}catch(e){status(e.message,true)}};
 $("export").onclick=()=>{
  if(!records.length){status("There are no recent records to export.",true);return}
