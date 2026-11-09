@@ -133,24 +133,11 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
   const money=p=>new Intl.NumberFormat("en-GB",{style:"currency",currency:"GBP"}).format(p/100);
   const screens=[...document.querySelectorAll(".screen")];
   function screen(id){screens.forEach(el=>el.classList.toggle("active",el.id===id));if(id!=="ticketView"&&resetTimer){clearTimeout(resetTimer);resetTimer=null}}
-  function updateDailyVerseDisplays(){
-    if(!window.ChurchDailyVerse)return;
-    const englishVerse=window.ChurchDailyVerse.get("en");
-    const serbianVerse=window.ChurchDailyVerse.get("sr");
-    const currentVerse=window.ChurchDailyVerse.get(lang);
-    $("welcomeVerseEnglish").textContent=englishVerse.verse;
-    $("welcomeVerseSerbian").textContent=serbianVerse.verse;
-    $("welcomeVerseReference").textContent=englishVerse.reference;
-    $("homeVerseTitle").textContent=currentVerse.title;
-    $("homeVerseText").textContent=currentVerse.verse;
-    $("homeVerseReference").textContent=currentVerse.reference;
-    $("homeVerseCard").dir=currentVerse.direction;
-  }
+  // The daily verse is displayed only by showVerseThenReset() at the end of the donation flow.
   function translate(){
     document.documentElement.lang=lang;
     $("brand").textContent="St Sava Church West Ealing";$("subtitle").textContent=text("subtitle");$("cashBadge").textContent=text("badge");$("footerNote").textContent=text("footer");$("staffLink").textContent=text("staff");
     document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=text(el.dataset.i18n));
-    updateDailyVerseDisplays();
   }
   function reset(){if(resetTimer!==null){clearTimeout(resetTimer);resetTimer=null;}if(verseTimer!==null){clearTimeout(verseTimer);verseTimer=null;}amountPence=0;$("customInput").value="";$("customError").textContent="";$("createError").textContent="";$("ticketNumber").textContent="---";lang="en";translate();screen("languageView")}
   function showVerseThenReset(){
@@ -214,7 +201,6 @@ main{flex:1;display:flex;align-items:center;justify-content:center}.screen{displ
     finally{b.disabled=false;$("reviewBack").disabled=false;b.textContent=text("getRef")}
   };
   $("nextCustomer").onclick=showVerseThenReset;
-  window.addEventListener("DOMContentLoaded",updateDailyVerseDisplays,{once:true});
   translate();
 })();
 </script>
